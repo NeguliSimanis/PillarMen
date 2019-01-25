@@ -22,13 +22,9 @@ public class GameIntroManager : MonoBehaviour
 
     public void StartIntro()
     {
-        Debug.Log("starting intro");
-
         currentIntroImageStartTime = Time.time;
         currentIntroImageEndTime = currentIntroImageStartTime + introTextDefaultLength;
-        introStarted = true;
-        Debug.Log("timescale" + Time.timeScale);
-        
+        introStarted = true;        
     }
 
     void Update()
@@ -44,7 +40,6 @@ public class GameIntroManager : MonoBehaviour
                 currentIntroImageEndTime += introTextDefaultLength + (float)(currentIntroID * 0.4);
                 introTexts[currentIntroID - 1].SetActive(false);
                 introTexts[currentIntroID].SetActive(true);
-                Debug.Log("INTRO end time " + currentIntroImageEndTime);
             }
             else if (Time.time > currentIntroImageEndTime + lastIntroTextAdditionalLength)
             {
@@ -56,10 +51,10 @@ public class GameIntroManager : MonoBehaviour
         }
     }
 
-    private void EndIntro()
+    public void EndIntro()
     {
-        Debug.Log("ending intro");
+        introOver = true;
         introGameObject.SetActive(false);
-        //gameStateManager.c
+        gameStateManager.EndGameIntro();
     }
 }

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class GameStateManager : MonoBehaviour
 {
+    [SerializeField]
+    // If true, player can move immediately. Else must wait for intro scene to end
+    // set to true when testing game without intro screen/scene
+    bool startGameWithPause = true; 
+
     public enum CurrentGameState
     {
         Intro,
@@ -14,17 +19,30 @@ public class GameStateManager : MonoBehaviour
         Paused
     };
 
-    CurrentGameState currentState;
+    public CurrentGameState currentState;
 
     void Start()
     {
-        currentState = CurrentGameState.Paused;
-        Time.timeScale = 0f;
+        if (startGameWithPause)
+        {
+            currentState = CurrentGameState.Paused;
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            currentState = CurrentGameState.Level1;
+            Time.timeScale = 1f;
+        }
     }
 
     public void StartGameButton()
     {
         Time.timeScale = 1f;
         currentState = CurrentGameState.Intro;
+    }
+
+    public void EndGameIntro()
+    {
+        currentState = CurrentGameState.Level1;
     }
 }
