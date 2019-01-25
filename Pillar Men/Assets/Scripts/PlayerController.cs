@@ -37,7 +37,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (gameStateManager.currentState == GameStateManager.CurrentGameState.Paused ||
-            gameStateManager.currentState == GameStateManager.CurrentGameState.Intro)
+            gameStateManager.currentState == GameStateManager.CurrentGameState.Intro ||
+            gameStateManager.currentState == GameStateManager.CurrentGameState.Defeat)
             return;
 
         if (isDead)
@@ -150,6 +151,8 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         Debug.Log("im player and im ded");
+        gameStateManager.LoseGame();
+
     }
         
 }

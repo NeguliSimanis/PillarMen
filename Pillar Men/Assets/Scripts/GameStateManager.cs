@@ -7,8 +7,10 @@ public class GameStateManager : MonoBehaviour
     [SerializeField]
     // If true, player can move immediately. Else must wait for intro scene to end
     // set to true when testing game without intro screen/scene
-    bool startGameWithPause = true; 
+    bool startGameWithPause = true;
 
+    [SerializeField]
+    GameObject defeatMenu;
     public enum CurrentGameState
     {
         Intro,
@@ -44,5 +46,12 @@ public class GameStateManager : MonoBehaviour
     public void EndGameIntro()
     {
         currentState = CurrentGameState.Level1;
+    }
+
+    public void LoseGame()
+    {
+        currentState = CurrentGameState.Defeat;
+        defeatMenu.SetActive(true);
+        
     }
 }
