@@ -9,13 +9,19 @@ public class BossZone : MonoBehaviour
 
     [SerializeField]
     AudioClip bossSFX;
-
+    [SerializeField]
+    CameraFollow cameraController;
     [SerializeField]
     AudioSource audioSource;
     [SerializeField]
     PlayerController playerController;
     [SerializeField]
     float playerFreezeDuration;
+    [SerializeField]
+    AnimationClip bossAppearAnimation;
+
+    float screenShakeDuration = 2.15f;
+    float screenShakeMagnitude = 0.03f;
 
     bool isBossActive = false;
 
@@ -35,5 +41,7 @@ public class BossZone : MonoBehaviour
         isBossActive = true;
         audioSource.PlayOneShot(bossSFX);
         playerController.FreezeMovement(Time.time + playerFreezeDuration);
+        //cameraController.ScreenShake(screenShakeDuration,screenShakeMagnitude);
+        cameraController.ScreenShake(bossAppearAnimation.length, screenShakeMagnitude);
     }
 }

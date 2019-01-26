@@ -25,7 +25,21 @@ public class BossController : MonoBehaviour
     public void Damage(int amount)
     {
         bossCurrentLife -= amount;
-       // if (am)
+        UpdateHPBar();
+        if (bossCurrentLife <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void UpdateHPBar()
+    {
+        bossHPBar.value = (bossCurrentLife * 1f) / bossMaxLife;
+    }
+
+    private void Die()
+    {
+
     }
 
     void Update()
