@@ -17,7 +17,7 @@ public class CloudSpawnPoint : MonoBehaviour
     void Start()
     {
         SpawnCloud();
-        Debug.Log("clouds " + cloudsToSpawn.Length);
+        //Debug.Log("clouds " + cloudsToSpawn.Length);
     }
 
     void SpawnCloud()

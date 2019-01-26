@@ -36,6 +36,9 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Movement
+    bool isMoveFrozen = false;
+    float freezeMovementEndTime;
+
     float horizontalMoveInput = 0;
     bool isFacingRight = true;
     bool isNearTargetPosition = false;
@@ -89,10 +92,17 @@ public class PlayerController : MonoBehaviour
         if (isDead)
             return;
 
-        ManageLeftMouseInput();
-        ManageRightMouseInput();
-        ManageHorizontalMoveInput();
-        ManageJumpInput();
+        if (!isMoveFrozen)
+        {
+            ManageLeftMouseInput();
+            ManageRightMouseInput();
+            ManageHorizontalMoveInput();
+            ManageJumpInput();
+        }
+        else if (Time.time > freezeMovementEndTime)
+        {
+            isMoveFrozen = false;
+        }
         /*if (isWalking)
         {
             CheckIfPlayerNearTargetPosition();
@@ -203,11 +213,11 @@ public class PlayerController : MonoBehaviour
         }*/
     }
 
-    void MouseWalk()
+    /*void MouseWalk()
     {
         rigidBody2D.AddForce(dirNormalized * playerSpeed);
         //GetDirNormalized(targetPosition);
-    }
+    }*/
 
     void Jump()
     {
@@ -288,6 +298,12 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         gameStateManager.LoseGame();
+    }
+
+    public void FreezeMovement(float unFreezeTime)
+    {
+        isMoveFrozen = true;
+        freezeMovementEndTime = unFreezeTime;
     }
 
     void CheckWherePlayerIsFacing()
