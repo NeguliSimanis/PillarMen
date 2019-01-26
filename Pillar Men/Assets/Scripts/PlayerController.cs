@@ -87,7 +87,8 @@ public class PlayerController : MonoBehaviour
     {
         if (gameStateManager.currentState == GameStateManager.CurrentGameState.Paused ||
             gameStateManager.currentState == GameStateManager.CurrentGameState.Intro ||
-            gameStateManager.currentState == GameStateManager.CurrentGameState.Defeat)
+            gameStateManager.currentState == GameStateManager.CurrentGameState.Defeat ||
+            gameStateManager.currentState == GameStateManager.CurrentGameState.Victory)
             return;
 
         UpdateHUD();
@@ -306,6 +307,8 @@ public class PlayerController : MonoBehaviour
     public void FreezeMovement(float unFreezeTime)
     {
         isMoveFrozen = true;
+        rigidBody2D.velocity = Vector2.zero;
+        playerCollider.sharedMaterial = playerNormalMaterial;
         freezeMovementEndTime = unFreezeTime;
     }
 

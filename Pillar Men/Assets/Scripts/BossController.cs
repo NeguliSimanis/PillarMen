@@ -11,6 +11,11 @@ public class BossController : MonoBehaviour
 
     [SerializeField]
     Slider bossHPBar;
+    [SerializeField]
+    GameStateManager gameStateManager;
+
+    bool isDead = false;
+
 
     void Start()
     {
@@ -25,7 +30,24 @@ public class BossController : MonoBehaviour
     public void Damage(int amount)
     {
         bossCurrentLife -= amount;
-       // if (am)
+        UpdateHPBar();
+        if (bossCurrentLife <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void UpdateHPBar()
+    {
+        bossHPBar.value = (bossCurrentLife * 1f) / bossMaxLife;
+    }
+
+    private void Die()
+    {
+        if (isDead)
+            return;
+        isDead = true;
+        gameStateManager.WinGame();
     }
 
     void Update()

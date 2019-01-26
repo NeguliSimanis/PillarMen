@@ -14,7 +14,7 @@ public class GameIntroManager : MonoBehaviour
     bool introStarted = false;
     bool introOver = false;
 
-    float introTextDefaultLength = 2f;
+    float introTextDefaultLength = 3.4f;
     float lastIntroTextAdditionalLength = 1.5f;
     int currentIntroID = 0;
     float currentIntroImageStartTime;
