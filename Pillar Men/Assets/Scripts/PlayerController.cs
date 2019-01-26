@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -21,6 +22,10 @@ public class PlayerController : MonoBehaviour
     GameStateManager gameStateManager;
     #endregion
 
+    #region UI
+    [SerializeField]
+    Image healthBar;
+    #endregion
     #region MELEE ATTACK
     //float meleeAttackCooldown;
     [SerializeField]
@@ -67,12 +72,19 @@ public class PlayerController : MonoBehaviour
         PlayerData.current.currentLife = PlayerData.current.maxLife;
     }
 
+    void UpdateHUD()
+    {
+        healthBar.fillAmount = (PlayerData.current.currentLife * 1f) / PlayerData.current.maxLife;
+    }
+
     void Update()
     {
         if (gameStateManager.currentState == GameStateManager.CurrentGameState.Paused ||
             gameStateManager.currentState == GameStateManager.CurrentGameState.Intro ||
             gameStateManager.currentState == GameStateManager.CurrentGameState.Defeat)
             return;
+
+        UpdateHUD();
 
         if (isDead)
             return;
@@ -161,7 +173,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log(rigidBody2D.velocity);
+        //Debug.Log(rigidBody2D.velocity);
         CheckWherePlayerIsFacing();
 
         // horizontal movement
@@ -249,6 +261,15 @@ public class PlayerController : MonoBehaviour
         //rigidBody2D.angularVelocity = Vector2.zero; 
     }*/
 
+    public void TakeDamage(int amount)
+    {
+        PlayerData.current.currentLife -= amount;
+        if (PlayerData.current.currentLife <= 0)
+        {
+            Die();
+        }
+    }
+    
     void  StopJumping()
     {
         //StopWalking();

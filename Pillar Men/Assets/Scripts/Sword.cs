@@ -10,7 +10,6 @@ public class Sword : MonoBehaviour
     public bool isAttacking = false;
     int damagePerAttack;
 
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy") && isPlayerSword)
@@ -18,6 +17,13 @@ public class Sword : MonoBehaviour
             if (isAttacking)
             {
                 DealDamageToEnemy(collision.gameObject.GetComponent<EnemyController>());
+            }
+        }
+        else if (collision.gameObject.CompareTag("Player") && !isPlayerSword)
+        {
+            if (isAttacking)
+            {
+                DealDamageToPlayer(collision.gameObject.GetComponent<PlayerController>());
             }
         }
     }
@@ -31,6 +37,14 @@ public class Sword : MonoBehaviour
                 DealDamageToEnemy(collision.gameObject.GetComponent<EnemyController>());
             }
         }
+        else if (collision.gameObject.CompareTag("Player") && !isPlayerSword)
+        {
+            if (isAttacking)
+            {
+                Debug.Log("Deal damage to player");
+                DealDamageToPlayer(collision.gameObject.GetComponent<PlayerController>());
+            }
+        }
     }
 
     public void EnableAttack(int attackDamage)
@@ -38,6 +52,15 @@ public class Sword : MonoBehaviour
         isAttacking = true;
         dealtDamageThisAttack = false;
         damagePerAttack = attackDamage;
+    }
+
+    private void DealDamageToPlayer(PlayerController playerController)
+    {
+        if (dealtDamageThisAttack)
+            return;
+        dealtDamageThisAttack = true;
+        isAttacking = false;
+        playerController.TakeDamage(damagePerAttack);
     }
 
     private void DealDamageToEnemy(EnemyController enemyToDamage)

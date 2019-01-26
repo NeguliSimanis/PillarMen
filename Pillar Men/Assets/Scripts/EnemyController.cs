@@ -32,7 +32,23 @@ public class EnemyController : MonoBehaviour
     private bool isFacingRight = false;
     #endregion
 
+    #region ENEMY ATTACK
+    private int enemyDamage = 22;
+    bool isAttackingPlayer = false;
+    private float nextAttackTime;
+    [SerializeField]
+    private float attackCooldown;
+    [SerializeField]
+    private int attackDamage;
+    [SerializeField]
+    private Sword enemyWeapon;
+    #endregion
+
+    #region ANIMATION
     Animator enemyAnimator;
+    [SerializeField]
+    AnimationClip attackAnimation;
+    #endregion
     private void Start()
     {
         currentHealth = maxHealth;
@@ -74,7 +90,6 @@ public class EnemyController : MonoBehaviour
         //Debug.Log(rigidBody2D.velocity);
         if (isPlayerVisible && !isPlayerNear)
         {
-            CheckIfNearPlayer();
             if (!isPlayerNear)
                 FollowPlayer();
         }
@@ -84,10 +99,20 @@ public class EnemyController : MonoBehaviour
         {
             CheckWhereEnemyIsFacing();
         }
+
+        if (isAttackingPlayer)
+        {
+            if (nextAttackTime < Time.time)
+            {
+                MeleeAttack(false);
+            }
+        }
     }
 
     private void CheckWhereEnemyIsFacing()
     {
+        if (!isFollowingPlayer)
+            return;
         if (isFacingRight && rigidBody2D.velocity.x < 0)
         {
             isFacingRight = false;
@@ -104,7 +129,7 @@ public class EnemyController : MonoBehaviour
     {
         if (!isPlayerVisible && notice)
         {
-            Debug.Log("Player noticed!");
+            //Debug.Log("Player noticed!");
             isPlayerVisible = notice;
         }
         else if (!notice)
@@ -113,9 +138,35 @@ public class EnemyController : MonoBehaviour
         }    
     }
 
-    private void CheckIfNearPlayer()
+    public void StandByForMeleeAttack(bool nearPlayer)
     {
+        // stop to attack
+        if (!isPlayerNear && nearPlayer)
+        {
+            isPlayerNear = true;
+            isFollowingPlayer = false;
+            if (!isAttackingPlayer)
+                MeleeAttack(true);
+            isAttackingPlayer = true;
+            rigidBody2D.velocity = Vector2.zero;
+        }
+        else if (!nearPlayer)
+        {
+            isPlayerNear = nearPlayer;
+        }
+    }
 
+    /// <summary>
+    /// Attacks player immediately if this is the first time method is called
+    /// Attacks after cooldown elsewise
+    /// </summary>
+    /// <param name="firstAttack">true if this is the first method call</param>
+    void MeleeAttack(bool firstAttack)
+    {
+        if (firstAttack || Time.time > nextAttackTime)
+            enemyAnimator.SetTrigger("attack");
+        nextAttackTime = Time.time + attackAnimation.length + attackCooldown;
+        enemyWeapon.EnableAttack(enemyDamage);
     }
 
     void GetTargetPositionAndDirection()
