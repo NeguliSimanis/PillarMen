@@ -19,6 +19,8 @@ public class BossZone : MonoBehaviour
     float playerFreezeDuration;
     [SerializeField]
     AnimationClip bossAppearAnimation;
+    [SerializeField]
+    GameObject bossHPBar;
 
     float screenShakeDuration = 2.15f;
     float screenShakeMagnitude = 0.03f;
@@ -37,6 +39,7 @@ public class BossZone : MonoBehaviour
 
     void ActivateBoss()
     {
+        bossHPBar.SetActive(true);
         boss.SetActive(true);
         isBossActive = true;
         audioSource.PlayOneShot(bossSFX);
