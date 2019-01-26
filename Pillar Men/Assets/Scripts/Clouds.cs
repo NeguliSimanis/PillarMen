@@ -8,12 +8,15 @@ public class Clouds : MonoBehaviour
     public SpriteRenderer cloudSprite;
     private float fadeOutTime = 2f;
     private float fadeInTime = 2f;
-    private float delayAfterFadeIn = 5f; // how long after fading in does the cloud start to fade out
+    private float minDelayAfterFadeIn = 3f;
+    private float maxDelayAfterFadeIn = 9f;
+    private float delayAfterFadeIn;// = 5f; // how long after fading in does the cloud start to fade out
 
     private bool isFadedIn = false;
     private bool isFadingOut = false;
     private float fadeOutStartTime;
 
+    [SerializeField]
     private float cloudMoveSpeed = 0.01f;
     private void Start()
     {
@@ -67,6 +70,7 @@ public class Clouds : MonoBehaviour
         if (fadeIn)
         {
             isFadedIn = true;
+            delayAfterFadeIn = Random.Range(minDelayAfterFadeIn, maxDelayAfterFadeIn);
             fadeOutStartTime = Time.time + delayAfterFadeIn;
         }
         else

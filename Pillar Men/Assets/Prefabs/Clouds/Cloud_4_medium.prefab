@@ -93,3 +93,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cloudSprite: {fileID: 0}
+  cloudMoveSpeed: 0.006
