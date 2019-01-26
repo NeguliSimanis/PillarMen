@@ -40,6 +40,8 @@ public class BossZone : MonoBehaviour
         boss.SetActive(true);
         isBossActive = true;
         audioSource.PlayOneShot(bossSFX);
+
+        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         playerController.FreezeMovement(Time.time + playerFreezeDuration);
         //cameraController.ScreenShake(screenShakeDuration,screenShakeMagnitude);
         cameraController.ScreenShake(bossAppearAnimation.length, screenShakeMagnitude);
