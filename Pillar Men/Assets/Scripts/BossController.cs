@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossController : MonoBehaviour
 {
     [SerializeField]
     int bossMaxLife = 300; // 300 
     int bossCurrentLife;
+
+    [SerializeField]
+    Slider bossHPBar;
 
     void Start()
     {
