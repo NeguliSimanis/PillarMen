@@ -24,8 +24,10 @@ public class PlayerController : MonoBehaviour
 
     #region UI
     [SerializeField]
-    Image healthBar;
+    Slider healthBar;
+    float healthBarMaxWidth;
     #endregion
+
     #region MELEE ATTACK
     //float meleeAttackCooldown;
     [SerializeField]
@@ -68,6 +70,7 @@ public class PlayerController : MonoBehaviour
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerCollider = GetComponent<Collider2D>();
+        //healthBarMaxWidth = healthBar.rectTransform.rect.width;
 
         if (PlayerData.current == null)
             PlayerData.current = new PlayerData();
@@ -77,7 +80,7 @@ public class PlayerController : MonoBehaviour
 
     void UpdateHUD()
     {
-        healthBar.fillAmount = (PlayerData.current.currentLife * 1f) / PlayerData.current.maxLife;
+        healthBar.value = (PlayerData.current.currentLife * 1f) / PlayerData.current.maxLife;
     }
 
     void Update()
