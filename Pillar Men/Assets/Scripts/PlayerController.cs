@@ -5,7 +5,14 @@ using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
-            
+    #region PHYSICS
+    [SerializeField]
+    PhysicsMaterial2D playerSlipperyMaterial;
+    [SerializeField]
+    PhysicsMaterial2D playerNormalMaterial;
+    Collider2D playerCollider;
+    #endregion
+
     private Rigidbody2D rigidBody2D;
     bool isDead = false;
 
@@ -14,11 +21,25 @@ public class PlayerController : MonoBehaviour
     GameStateManager gameStateManager;
     #endregion
 
+    #region MELEE ATTACK
+    //float meleeAttackCooldown;
+    [SerializeField]
+    Sword playerSword;
+    float nextMeleeAttackTime = -1;
+    [SerializeField]
+    AnimationClip meleeAttackAnimation;
+    #endregion
+
     #region Movement
+    float horizontalMoveInput = 0;
+    bool isFacingRight = true;
     bool isNearTargetPosition = false;
     bool isWalking = false;
 
-    public float playerSpeed;
+    [SerializeField]
+    private float playerSpeed;
+    [SerializeField]
+    private float playerMaxSpeedXaxis = 3;
 
     private Vector2 targetPosition;
     private Vector2 dirNormalized;
@@ -26,12 +47,24 @@ public class PlayerController : MonoBehaviour
 
     #region Jumping
     bool isJumping = false;
-    float jumpForce = 350;
+    bool isDoubleJumping = false;
+    [SerializeField]
+    float jumpForce = 450;
     #endregion
 
+    #region ANIMATION
+    Animator animator;
+    #endregion
     void Start()
     {
         rigidBody2D = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        playerCollider = GetComponent<Collider2D>();
+
+        if (PlayerData.current == null)
+            PlayerData.current = new PlayerData();
+
+        PlayerData.current.currentLife = PlayerData.current.maxLife;
     }
 
     void Update()
@@ -45,18 +78,64 @@ public class PlayerController : MonoBehaviour
             return;
 
         ManageLeftMouseInput();
-        ManageSpaceInput();
-        if (isWalking)
+        ManageRightMouseInput();
+        ManageHorizontalMoveInput();
+        ManageJumpInput();
+        /*if (isWalking)
         {
             CheckIfPlayerNearTargetPosition();
+            Debug.Log("Target walking position " + targetPosition);
+        }*/
+    }
+
+    void ManageRightMouseInput()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (nextMeleeAttackTime == -1)
+            {
+                MeleeAttack();
+            }
+            else if (Time.time > nextMeleeAttackTime)
+            {
+                MeleeAttack();
+            }
+           
         }
     }
 
-    void ManageSpaceInput()
+    void MeleeAttack()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        nextMeleeAttackTime = Time.time + meleeAttackAnimation.length;
+        animator.SetTrigger("attack");
+        playerSword.EnableAttack(PlayerData.current.meleeDamage);
+    }
+
+    void ManageJumpInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) ||
+            Input.GetKeyDown(KeyCode.W) ||
+            Input.GetKeyDown(KeyCode.UpArrow))
         {
             Jump();
+        }
+    }
+
+    void ManageHorizontalMoveInput()
+    {
+        if (Input.GetKey(KeyCode.RightArrow) ||
+            Input.GetKey(KeyCode.D))
+        {
+            horizontalMoveInput = 1;
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow) ||
+            Input.GetKey(KeyCode.A))
+        {
+            horizontalMoveInput = -1;
+        }
+        else
+        {
+            horizontalMoveInput = 0;
         }
     }
     void ManageLeftMouseInput()
@@ -65,12 +144,13 @@ public class PlayerController : MonoBehaviour
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
-                GetTargetPositionAndDirection();
+                /*GetTargetPositionAndDirection();
                 CheckIfPlayerNearTargetPosition();
                 if (!isNearTargetPosition)
                 {
                     isWalking = true;
-                }
+                }*/
+                Teleport();
             }
             else
             {
@@ -78,24 +158,51 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    
+
     void FixedUpdate()
     {
-        if (isWalking)
+        Debug.Log(rigidBody2D.velocity);
+        CheckWherePlayerIsFacing();
+
+        // horizontal movement
+        
+        Vector2 movement = new Vector2(horizontalMoveInput, 0);
+        if (rigidBody2D.velocity.x < playerMaxSpeedXaxis && rigidBody2D.velocity.x > -playerMaxSpeedXaxis)
+            rigidBody2D.AddForce(movement * playerSpeed);
+
+        if (rigidBody2D.velocity.x > 0 || rigidBody2D.velocity.x < 0)
         {
-            Walk(); 
+            CheckWherePlayerIsFacing();
+            
         }
+        // player is pressing move key, but is stuck
+        if (horizontalMoveInput > 0 || horizontalMoveInput < 0)
+        {
+            playerCollider.sharedMaterial = playerSlipperyMaterial;
+            //rigidBody2D.AddForce(new Vector2(0, playerSpeed * 2));
+        }
+        else
+        {
+            playerCollider.sharedMaterial = playerNormalMaterial;
+        }
+        /*if (isWalking)
+        {
+            MouseWalk();
+        }*/
     }
 
-    void Walk()
+    void MouseWalk()
     {
         rigidBody2D.AddForce(dirNormalized * playerSpeed);
-        GetDirNormalized(targetPosition);
+        //GetDirNormalized(targetPosition);
     }
 
     void Jump()
     {
+        if (isJumping)
+            return;
         isJumping = true;
+        animator.SetBool("isJumping", true);
         rigidBody2D.AddForce(new Vector2(0, jumpForce));
     }
 
@@ -107,6 +214,14 @@ public class PlayerController : MonoBehaviour
         GetDirNormalized(targetPosition);
     }
 
+    void Teleport()
+    {
+        targetPosition = Input.mousePosition;
+        targetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
+        transform.position = targetPosition;
+        rigidBody2D.velocity = Vector2.zero;
+    }
+
     void GetDirNormalized(Vector2 sourceVector)
     {
         dirNormalized = new Vector2(sourceVector.x - transform.position.x, sourceVector.y - transform.position.y);
@@ -115,10 +230,10 @@ public class PlayerController : MonoBehaviour
 
     void CheckIfPlayerNearTargetPosition()
     {
-        if (Vector2.Distance(targetPosition, transform.position) <= 0.2f)
+        if (Vector2.Distance(targetPosition, transform.position) <= 0.12f)
         {
             isNearTargetPosition = true;
-            StopWalking();
+            //StopWalking();
         }
         else
         {
@@ -126,17 +241,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void StopWalking()
+    /*void StopWalking()
     {
-        Debug.Log("STOP WALKING");
+        Debug.Log("STOP WALKING " + Time.time);
         isWalking = false;
         rigidBody2D.velocity = Vector2.zero;
         //rigidBody2D.angularVelocity = Vector2.zero; 
-    }
+    }*/
 
     void  StopJumping()
     {
-        StopWalking();
+        //StopWalking();
+        isJumping = false;
+        animator.SetBool("isJumping", false);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -144,15 +261,38 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             StopJumping();
-            
         }
     }
 
     public void Die()
     {
-        Debug.Log("im player and im ded");
         gameStateManager.LoseGame();
-
     }
-        
+
+    void CheckWherePlayerIsFacing()
+    {
+        if (isFacingRight && horizontalMoveInput < 0)
+        {
+            isFacingRight = false;
+            gameObject.transform.localScale = new Vector2(-1f, 1f);
+        }
+        else if (!isFacingRight && horizontalMoveInput > 0)
+        {
+            isFacingRight = true;
+            gameObject.transform.localScale = new Vector2(1f, 1f);
+        }
+
+        // ARTIFACT FROM MOUSE CONTROLS
+        /*if (isFacingRight && dirNormalized.x < 0)
+        {
+            isFacingRight = false;
+            gameObject.transform.localScale = new Vector2(-1f, 1f);
+        }
+        else if (!isFacingRight && dirNormalized.x > 0)
+        {
+            isFacingRight = true;
+            gameObject.transform.localScale = new Vector2(1f, 1f);
+        }*/
+    }
+
 }
