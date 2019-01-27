@@ -98,6 +98,5 @@ public class CameraFollow : MonoBehaviour
 
             yield return new WaitForFixedUpdate();
         }
-        Debug.Log("PROCESS OVER");
     }
 }

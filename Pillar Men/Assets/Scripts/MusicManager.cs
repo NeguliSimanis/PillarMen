@@ -14,6 +14,8 @@ public class MusicManager : MonoBehaviour
     AudioClip bossMusic;
     [SerializeField]
     GameObject bossAmbience;
+    [SerializeField]
+    BossController bossController;
 
     bool isBossAppeared = false;
     bool isBossMusicSet = false;
@@ -55,6 +57,7 @@ public class MusicManager : MonoBehaviour
                 audioSource.clip = bossMusic;
                 audioSource.Play();
                 bossAmbience.SetActive(true);
+                bossController.StartAttacks();
             }
         }
     }
