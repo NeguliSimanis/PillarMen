@@ -91,7 +91,7 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log(isStandingOnGround + " " + Time.time);
+        Debug.Log(isStandingOnGround + " " + Time.time);
         if (!isDying)
             return;
         if (Time.time > deathTime)
@@ -139,12 +139,12 @@ public class EnemyController : MonoBehaviour
     {
         if (!isFollowingPlayer)
             return;
-        if (isFacingRight && rigidBody2D.velocity.x < 0 && dirNormalized.x < 0)
+        if (isFacingRight && rigidBody2D.velocity.x < 0)
         {
             isFacingRight = false;
             gameObject.transform.localScale = new Vector2(1f, 1f);
         }
-        else if (!isFacingRight && rigidBody2D.velocity.x > 0 && dirNormalized.x > 0)
+        else if (!isFacingRight && rigidBody2D.velocity.x > 0)
         {
             isFacingRight = true;
             gameObject.transform.localScale = new Vector2(-1f, 1f);
