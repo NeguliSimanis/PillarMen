@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2137663323}
   - component: {fileID: 2137663322}
   - component: {fileID: 2137663321}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ZobensCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 8046160570201206344}
   - component: {fileID: 1461088784}
   - component: {fileID: 1461088785}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Zobens
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160570205333107}
   - component: {fileID: 8046160570205333104}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LowerArmRIGHT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -322,7 +322,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160570208998642}
   - component: {fileID: 8046160570208998643}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: UpperLegRIGHT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -403,7 +403,7 @@ GameObject:
   - component: {fileID: 8046160570237993665}
   - component: {fileID: 8046160570237993670}
   - component: {fileID: 131806310}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Head
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -509,7 +509,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160570400996304}
   - component: {fileID: 8046160570400996305}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bumba5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -588,7 +588,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160570416645889}
   - component: {fileID: 8046160570416645894}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Hair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -667,7 +667,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160570453346576}
   - component: {fileID: 8046160570453346577}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LowerArmLEFT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -747,7 +747,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160570563094339}
   - component: {fileID: 8046160570563094336}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: HandRIGHT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -827,7 +827,8 @@ GameObject:
   - component: {fileID: 8046160570641866238}
   - component: {fileID: 8046160570641866239}
   - component: {fileID: 1166469222}
-  m_Layer: 0
+  - component: {fileID: 1166469223}
+  m_Layer: 11
   m_Name: FootRIGHT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -922,6 +923,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5322813, y: 0.27998734}
   m_EdgeRadius: 0
+--- !u!114 &1166469223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8046160570641866233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1add2e9b5e052a5469bba40a2e12ffd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 9158304794027093488}
 --- !u!1 &8046160570878882194
 GameObject:
   m_ObjectHideFlags: 0
@@ -932,7 +946,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160570878882195}
   - component: {fileID: 8046160570878882192}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bumba3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1011,7 +1025,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160571021907420}
   - component: {fileID: 8046160571021907421}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FootLEFT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1089,7 +1103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8046160571037342159}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1130,7 +1144,7 @@ GameObject:
   - component: {fileID: 8046160571224699201}
   - component: {fileID: 8046160571224699206}
   - component: {fileID: 923521327}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Torso
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1235,7 +1249,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160571289432348}
   - component: {fileID: 8046160571289432349}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SkirtFRONT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1314,7 +1328,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160571596707493}
   - component: {fileID: 8046160571596707498}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LowerLegRIGHT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1393,7 +1407,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8046160571663745640}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: necklace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1429,7 +1443,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160571716210174}
   - component: {fileID: 8046160571716210175}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bumba4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1508,7 +1522,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160571888875216}
   - component: {fileID: 8046160571888875217}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: UpperArmRIGHT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1588,7 +1602,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160571901160296}
   - component: {fileID: 8046160571901160297}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bumba2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1667,7 +1681,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160571907418843}
   - component: {fileID: 8046160571907418840}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bumba1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1746,7 +1760,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160572127093994}
   - component: {fileID: 8046160572127093995}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SkirtBACK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1825,7 +1839,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160572156767763}
   - component: {fileID: 8046160572156767760}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: UpperLegLEFT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1905,7 +1919,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160572161480729}
   - component: {fileID: 8046160572161480734}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LowerLegLEFT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1985,7 +1999,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160572235285765}
   - component: {fileID: 8046160572235285770}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: HandLEFT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2066,7 +2080,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046160572249987584}
   - component: {fileID: 8046160572249987585}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: UpperArmLEFT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2150,7 +2164,8 @@ GameObject:
   - component: {fileID: 3118677192158908206}
   - component: {fileID: 2660271961445457444}
   - component: {fileID: 7226961766730349906}
-  m_Layer: 0
+  - component: {fileID: 1524093720}
+  m_Layer: 11
   m_Name: kate 1
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -2244,8 +2259,13 @@ MonoBehaviour:
   playerSpeed: 40
   playerMaxSpeedXaxis: 9
   isStandingOnGround: 1
-  jumpForce: 630
-  doubleJumpForce: 700
+  jumpForce: 560
+  doubleJumpForce: 610
+  collidersToDisableWhileJumping:
+  - {fileID: 2660271961445457444}
+  - {fileID: 923521327}
+  - {fileID: 131806310}
+  attackSFX: {fileID: 8300000, guid: b60ffa7284f56ed4bbf809dbba2da6d7, type: 3}
 --- !u!50 &3118677192158908206
 Rigidbody2D:
   serializedVersion: 4
@@ -2302,3 +2322,99 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!82 &1524093720
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8170288098298219422}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

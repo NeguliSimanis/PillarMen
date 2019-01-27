@@ -250,7 +250,7 @@ public class EnemyController : MonoBehaviour
 
     private void FollowPlayer()
     {
-        Debug.Log("following player " + Time.time);
+        //Debug.Log("following player " + Time.time);
         targetPosition = playerTransform.position;
         isFollowingPlayer = true;
         enemyAnimator.SetBool("isWalking", true);
