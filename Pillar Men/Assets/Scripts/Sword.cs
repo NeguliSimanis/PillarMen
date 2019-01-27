@@ -81,6 +81,6 @@ public class Sword : MonoBehaviour
             return;
         dealtDamageThisAttack = true;
         isAttacking = false;
-        enemyToDamage.Damage(damagePerAttack);
+        enemyToDamage.TakeDamage(damagePerAttack);
     }
 }
