@@ -9,7 +9,11 @@ public class CameraFollow : MonoBehaviour
     private GameObject player;       //variable to store a reference to the player game object
     [SerializeField]
     private Transform cameraBossPosition;
+    [SerializeField]
+    private Transform cameraBossPosition2;
 
+    Camera camera;
+    float cameraSizeAfterBoss = 8.97f;
     private Vector3 offset;         //Private variable to store the offset distance between the player and camera
     bool followPlayer = true;
 
@@ -18,6 +22,7 @@ public class CameraFollow : MonoBehaviour
     {
         //Calculate and store the offset value by getting the distance between the player's position and camera's position.
         offset = transform.position - player.transform.position;
+        camera = GetComponent<Camera>();
     }
 
 
@@ -58,7 +63,41 @@ public class CameraFollow : MonoBehaviour
             yield return null;
         }
 
-        transform.position = originalPos;
-        followPlayer = true;
+        /*StartCoroutine(MoveCameraAfterBossShake(transform.position, player.transform.position + offset,
+            camera.orthographicSize, cameraSizeAfterBoss,1f));*/
+        StartCoroutine(MoveCameraAfterBossShake(transform.position, cameraBossPosition2.position,
+        camera.orthographicSize, cameraSizeAfterBoss, 1f));
+        /* transform.position = originalPos;
+         followPlayer = true;*/
+    }
+
+
+    public IEnumerator MoveCameraAfterBossShake(Vector3 startPosition, Vector3 endPosition,
+        float cameraStartSize, float cameraEndSize, float lerpTime = 1)
+    {
+        float _timeStartedLerping = Time.time;
+        float timeSinceStarted = Time.time - _timeStartedLerping;
+        float percentageComplete = timeSinceStarted / lerpTime;
+
+        while (true)
+        {
+            timeSinceStarted = Time.time - _timeStartedLerping;
+            percentageComplete = timeSinceStarted / lerpTime;
+
+            Vector3 currentPosition = new Vector3 
+                (Mathf.Lerp(startPosition.x, endPosition.x, percentageComplete),
+                Mathf.Lerp(startPosition.y, endPosition.y, percentageComplete),
+                Mathf.Lerp(startPosition.z, endPosition.z, percentageComplete));
+
+            float currentCameraSize = Mathf.Lerp(cameraStartSize, cameraEndSize, percentageComplete);
+
+            transform.position = currentPosition;
+            camera.orthographicSize = currentCameraSize;
+
+            if (percentageComplete >= 1) break;
+
+            yield return new WaitForFixedUpdate();
+        }
+        Debug.Log("PROCESS OVER");
     }
 }

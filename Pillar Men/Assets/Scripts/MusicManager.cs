@@ -46,10 +46,10 @@ public class MusicManager : MonoBehaviour
     {
         if (isBossAppeared)
         {
-            Debug.Log("boss appeared " + Time.time);
+            //Debug.Log("boss appeared " + Time.time);
             if (!isBossMusicSet & Time.time > bossMusicStartTime)
             {
-                Debug.Log("yay");
+                //Debug.Log("yay");
                 isBossMusicSet = true;
                 audioSource.volume = 1;
                 audioSource.clip = bossMusic;
