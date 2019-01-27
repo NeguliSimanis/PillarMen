@@ -11,6 +11,8 @@ public class GameStateManager : MonoBehaviour
 
     [SerializeField]
     GameObject defeatMenu;
+    [SerializeField]
+    GameObject victoryMenu;
     public enum CurrentGameState
     {
         Intro,
@@ -51,7 +53,13 @@ public class GameStateManager : MonoBehaviour
     public void LoseGame()
     {
         currentState = CurrentGameState.Defeat;
-        defeatMenu.SetActive(true);
-        
+        defeatMenu.SetActive(true); 
+    }
+
+    public void WinGame()
+    {
+        currentState = CurrentGameState.Victory;
+        victoryMenu.SetActive(true);
+
     }
 }
