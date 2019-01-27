@@ -39,7 +39,6 @@ public class MusicManager : MonoBehaviour
     
     void Start()
     {
-        Debug.Log("started");
         audioSource.clip = backgroundMusic;
        // StartCoroutine(FadeOut(audioSource, 10f));
     }

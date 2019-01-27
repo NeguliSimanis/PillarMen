@@ -18,8 +18,8 @@ TagManager:
   - 
   - Background
   - Clouds
-  - 
-  - 
+  - Platforms
+  - Player
   - 
   - 
   - 
@@ -41,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Adam
+    uniqueID: 2386997909
+    locked: 0
   - name: Background
     uniqueID: 2312851329
     locked: 0

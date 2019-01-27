@@ -56,10 +56,16 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Jumping
+    public bool isStandingOnGround = true;
     bool isJumping = false;
-    bool isDoubleJumping = false;
+    bool hasDoubleJumped = false;
     [SerializeField]
-    float jumpForce = 450;
+    float jumpForce;
+    [SerializeField]
+    float doubleJumpForce;
+
+    [SerializeField]
+    Collider2D[] collidersToDisableWhileJumping;
     #endregion
 
     #region ANIMATION
@@ -98,8 +104,8 @@ public class PlayerController : MonoBehaviour
 
         if (!isMoveFrozen)
         {
-            ManageLeftMouseInput();
-            ManageRightMouseInput();
+            //ManageLeftMouseInput();
+            ManageAttackInput();
             ManageHorizontalMoveInput();
             ManageJumpInput();
         }
@@ -114,9 +120,10 @@ public class PlayerController : MonoBehaviour
         }*/
     }
 
-    void ManageRightMouseInput()
+    void ManageAttackInput()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(KeyCode.Space) ||
+            Input.GetMouseButtonDown(0))
         {
             if (nextMeleeAttackTime == -1)
             {
@@ -139,8 +146,7 @@ public class PlayerController : MonoBehaviour
 
     void ManageJumpInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space) ||
-            Input.GetKeyDown(KeyCode.W) ||
+        if ( Input.GetKeyDown(KeyCode.W) ||
             Input.GetKeyDown(KeyCode.UpArrow))
         {
             Jump();
@@ -164,26 +170,6 @@ public class PlayerController : MonoBehaviour
             horizontalMoveInput = 0;
         }
     }
-    void ManageLeftMouseInput()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (!EventSystem.current.IsPointerOverGameObject())
-            {
-                /*GetTargetPositionAndDirection();
-                CheckIfPlayerNearTargetPosition();
-                if (!isNearTargetPosition)
-                {
-                    isWalking = true;
-                }*/
-                Teleport();
-            }
-            else
-            {
-                Debug.Log("cant move if clicking on UI");
-            }
-        }
-    }
 
     void FixedUpdate()
     {
@@ -194,12 +180,18 @@ public class PlayerController : MonoBehaviour
         
         Vector2 movement = new Vector2(horizontalMoveInput, 0);
         if (rigidBody2D.velocity.x < playerMaxSpeedXaxis && rigidBody2D.velocity.x > -playerMaxSpeedXaxis)
-            rigidBody2D.AddForce(movement * playerSpeed);
-
-        if (rigidBody2D.velocity.x > 0 || rigidBody2D.velocity.x < 0)
         {
+            rigidBody2D.AddForce(movement * playerSpeed);
+        }
+
+        if (rigidBody2D.velocity.x > 0.01 || rigidBody2D.velocity.x < -0.01)
+        {
+            animator.SetBool("isRunning", true);
             CheckWherePlayerIsFacing();
-            
+        }
+        else
+        {
+            animator.SetBool("isRunning", false);
         }
         // player is pressing move key, but is stuck
         if (horizontalMoveInput > 0 || horizontalMoveInput < 0)
@@ -225,11 +217,31 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        if (isJumping)
+        if (hasDoubleJumped)
             return;
-        isJumping = true;
-        animator.SetBool("isJumping", true);
+        // double jump
+        if (isJumping)
+        {
+            animator.SetTrigger("doubleJump");
+            hasDoubleJumped = true;
+        }
+        // regular jump
+        else
+        {
+            animator.SetBool("isJumping", true);
+            isJumping = true;
+        }
+        DisableCollisionsWithPlatforms(true);
         rigidBody2D.AddForce(new Vector2(0, jumpForce));
+    }
+
+    void DisableCollisionsWithPlatforms(bool disable)
+    {
+        Physics.IgnoreLayerCollision(8, 11, !disable);
+        /*foreach (Collider2D collider in collidersToDisableWhileJumping)
+        {
+            collider.enabled = !disable;
+        }*/
     }
 
     void GetTargetPositionAndDirection()
@@ -277,6 +289,9 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+        if (isDead)
+            return;
+        animator.SetTrigger("hurt");
         PlayerData.current.currentLife -= amount;
         if (PlayerData.current.currentLife <= 0)
         {
@@ -284,11 +299,14 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-    void  StopJumping()
+    public void  StopJumping()
     {
         //StopWalking();
+        //Debug.Log("Stop jumping " + Time.time);
         isJumping = false;
+        hasDoubleJumped = false;
         animator.SetBool("isJumping", false);
+        DisableCollisionsWithPlatforms(false);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
