@@ -243,8 +243,6 @@ public class EnemyController : MonoBehaviour
             rigidBody2D.AddForce(new Vector2(0, jumpForceVertical));
             // add horizontal force in the direction of the jump
             rigidBody2D.AddForce(new Vector2(dirNormalized.x * jumpForceHorizontal, 0));
-            // temporarily disable colliders
-            gameObject.GetComponent<CircleCollider2D>().enabled = false;
         }
     }
 
@@ -255,14 +253,5 @@ public class EnemyController : MonoBehaviour
         enemyAnimator.SetBool("isWalking", true);
         GetTargetPositionAndDirection();
         MoveEnemy();
-    }
-
-    public void EndJump()
-    {
-        if (!isStandingOnGround)
-        {
-            enemyAnimator.SetTrigger("endJump");
-            gameObject.GetComponent<CircleCollider2D>().enabled = true;
-        }
     }
 }
