@@ -71,11 +71,18 @@ public class PlayerController : MonoBehaviour
     #region ANIMATION
     Animator animator;
     #endregion
+
+    #region AUDIO
+    AudioSource audioSource;
+    [SerializeField]
+    AudioClip attackSFX;
+    #endregion
     void Start()
     {
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerCollider = GetComponent<Collider2D>();
+        audioSource = GetComponent<AudioSource>();
         //healthBarMaxWidth = healthBar.rectTransform.rect.width;
 
         if (PlayerData.current == null)
@@ -141,6 +148,7 @@ public class PlayerController : MonoBehaviour
     {
         nextMeleeAttackTime = Time.time + meleeAttackAnimation.length;
         animator.SetTrigger("attack");
+        audioSource.PlayOneShot(attackSFX);
         playerSword.EnableAttack(PlayerData.current.meleeDamage);
     }
 
