@@ -65,9 +65,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -1982115967
+  m_SortingLayer: -1
+  m_SortingOrder: 20
   m_Sprite: {fileID: 21300000, guid: f30933914c3cb9f4c959c36ab94cf993, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -250,12 +250,15 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -0.98306274, y: 1.6059418}
-  - {x: -0.42312622, y: 1.4572144}
-  - {x: 0.19299316, y: 1.4289551}
-  - {x: 0.2866211, y: 1.4258118}
-  - {x: 0.3366394, y: 1.4548798}
-  - {x: 0.69000244, y: 1.5277863}
+  - {x: -0.9782715, y: 1.6873169}
+  - {x: -0.4375, y: 1.5625153}
+  - {x: -0.18066406, y: 1.5262299}
+  - {x: 0.08621216, y: 1.5122986}
+  - {x: 0.21691895, y: 1.4959717}
+  - {x: 0.2866211, y: 1.5071716}
+  - {x: 0.3701477, y: 1.5266724}
+  - {x: 0.5819702, y: 1.565628}
+  - {x: 0.6947937, y: 1.5900116}
   - {x: 0.92575073, y: 1.6387177}
 --- !u!1 &8095564067543306583
 GameObject:

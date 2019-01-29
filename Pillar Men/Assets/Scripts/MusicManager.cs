@@ -16,6 +16,8 @@ public class MusicManager : MonoBehaviour
     GameObject bossAmbience;
     [SerializeField]
     BossController bossController;
+    [SerializeField]
+    Animator bossPlatformDarkenAnimator;
 
     bool isBossAppeared = false;
     bool isBossMusicSet = false;
@@ -56,6 +58,7 @@ public class MusicManager : MonoBehaviour
                 audioSource.clip = bossMusic;
                 audioSource.Play();
                 bossAmbience.SetActive(true);
+                
                 bossController.StartAttacks();
             }
         }
@@ -65,6 +68,7 @@ public class MusicManager : MonoBehaviour
     {
         audioSource.clip = bossAppearSFX;
         audioSource.Play();
+        bossPlatformDarkenAnimator.enabled = true;
         //audioSource.PlayOneShot(bossAppearSFX, 1f);
         bossMusicStartTime = Time.time + bossAppearSFX.length;
         Debug.Log("boss music start time " + bossMusicStartTime);

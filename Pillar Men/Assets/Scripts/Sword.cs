@@ -66,7 +66,7 @@ public class Sword : MonoBehaviour
         playerController.TakeDamage(damagePerAttack);
     }
 
-    private void DealDamageToBoss(BossController bossToDamage)
+    public void DealDamageToBoss(BossController bossToDamage)
     {
         if (dealtDamageThisAttack)
             return;

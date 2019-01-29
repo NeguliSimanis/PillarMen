@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BossController : MonoBehaviour
 {
     [SerializeField]
-    int bossMaxLife = 300; // 300 
+    int bossMaxLife; // 350
     int bossCurrentLife;
 
     [SerializeField]
@@ -27,8 +27,8 @@ public class BossController : MonoBehaviour
     bool isAttacking = false;
     bool canDamagePlayer = false;
 
-    float minDelayBetweenAttacks = 3f;
-    float maxDelayBetweenAttacks = 7f;
+    float minDelayBetweenAttacks = 2f;
+    float maxDelayBetweenAttacks = 5f;
     float nextAttackTime = -1;
 
     [SerializeField]
@@ -117,5 +117,18 @@ public class BossController : MonoBehaviour
         nextAttackTime = Time.time + currentAttackAnimation.length + Random.Range(minDelayBetweenAttacks, maxDelayBetweenAttacks);
 
         //nextAttackTime = 
+    }
+
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("PlayerSword"))
+        {
+            Sword playerSword = collision.gameObject.GetComponent<Sword>();
+            if (playerSword.isAttacking)
+            {
+                playerSword.DealDamageToBoss(this);
+            }
+        }
     }
 }

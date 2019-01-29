@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour
     AudioSource audioSource;
     [SerializeField]
     AudioClip attackSFX;
+    float attackSFXDelay = 0.1f;
     #endregion
     void Start()
     {
@@ -98,6 +99,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        //Debug.Log(rigidBody2D.velocity + " " + Time.time);
         if (gameStateManager.currentState == GameStateManager.CurrentGameState.Paused ||
             gameStateManager.currentState == GameStateManager.CurrentGameState.Intro ||
             gameStateManager.currentState == GameStateManager.CurrentGameState.Defeat ||
@@ -148,8 +150,14 @@ public class PlayerController : MonoBehaviour
     {
         nextMeleeAttackTime = Time.time + meleeAttackAnimation.length;
         animator.SetTrigger("attack");
-        audioSource.PlayOneShot(attackSFX);
+        StartCoroutine(PlayAttackSFXAfterDelay());
         playerSword.EnableAttack(PlayerData.current.meleeDamage);
+    }
+
+    private IEnumerator PlayAttackSFXAfterDelay()
+    {
+        yield return new WaitForSeconds(attackSFXDelay);
+        audioSource.PlayOneShot(attackSFX);
     }
 
     void ManageJumpInput()
@@ -189,7 +197,8 @@ public class PlayerController : MonoBehaviour
         Vector2 movement = new Vector2(horizontalMoveInput, 0);
         if (rigidBody2D.velocity.x < playerMaxSpeedXaxis && rigidBody2D.velocity.x > -playerMaxSpeedXaxis)
         {
-            rigidBody2D.AddForce(movement * playerSpeed);
+            if (!isMoveFrozen)
+                rigidBody2D.AddForce(movement * playerSpeed);
         }
 
         if (rigidBody2D.velocity.x > 0.01 || rigidBody2D.velocity.x < -0.01)

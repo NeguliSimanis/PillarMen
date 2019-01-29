@@ -28,7 +28,7 @@ public class CameraFollow : MonoBehaviour
 
     public void ScreenShake(float duration, float magnitude)
     {
-        Debug.Log("START SHAKING SCREEN");
+       // Debug.Log("START SHAKING SCREEN");
         followPlayer = false;
         StartCoroutine(Shake(duration, magnitude));
     }
