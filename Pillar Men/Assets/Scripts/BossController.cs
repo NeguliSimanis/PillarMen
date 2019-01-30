@@ -28,13 +28,15 @@ public class BossController : MonoBehaviour
     bool canDamagePlayer = false;
 
     float minDelayBetweenAttacks = 2f;
-    float maxDelayBetweenAttacks = 5f;
+    float maxDelayBetweenAttacks = 4f;
     float nextAttackTime = -1;
 
     [SerializeField]
     AnimationClip attackAnimation1;
     [SerializeField]
     AnimationClip attackAnimation2;
+    [SerializeField]
+    AnimationClip deathAnimation;
     #endregion
 
     void Start()
@@ -72,7 +74,8 @@ public class BossController : MonoBehaviour
         if (isDead)
             return;
         isDead = true;
-        victoryTime = Time.time + deathDelay;   
+        bossAnimator.SetTrigger("die");
+        victoryTime = Time.time + deathDelay + deathAnimation.length;   
     }
 
     void Update()
@@ -131,4 +134,79 @@ public class BossController : MonoBehaviour
             }
         }
     }
+
+    #region WOUNDED ANIMATION
+    /*
+ * color switch 
+ * default - RGBA(1.000, 1.000, 1.000, 1.000)
+ * hurt - RGBA(1.000, 0.684, 0.684, 1.000)
+ */
+
+    /*void Test()
+    {
+        
+        animation.Play("boss_hurt");
+        animation["boss_hurt"].layer = 1;
+        
+    }*/
+
+    /*float woundedAnimDelay = 0.1f;
+    float animFadeSpeed = 0.1f;
+    int animRepeatTimes = 3;
+    [SerializeField]
+    SpriteRenderer[] bodyPartsToAnimate;
+
+    void Test()
+    {
+        bodyPartsToAnimate[0].color = Color.red;
+        bodyPartsToAnimate[1].color = Color.red;
+        bodyPartsToAnimate[2].color = Color.red;
+        bodyPartsToAnimate[3].color = Color.red;
+
+        foreach (SpriteRenderer bossBodyPart in bodyPartsToAnimate)
+        {
+            Debug.Log("im workig");
+            bossBodyPart.color = Color.red;
+        }
+    }
+
+    private IEnumerator StartWoundedAnimAfterDelay()
+    {
+        
+        Debug.Log("coroutine started");
+        yield return new WaitForSeconds(woundedAnimDelay);
+        Debug.Log("begin fade");
+        FadeToColor(bodyPartsToAnimate[0].color, new Color(1.000f, 0.684f, 0.684f));
+    }
+
+    public IEnumerator FadeToColor(Color startColor, Color endColor, float lerpTime = 1)
+    {
+        float _timeStartedLerping = Time.time;
+        float timeSinceStarted = Time.time - _timeStartedLerping;
+        float percentageComplete = timeSinceStarted / lerpTime;
+
+        while (true)
+        {
+            timeSinceStarted = Time.time - _timeStartedLerping;
+            percentageComplete = timeSinceStarted / lerpTime;
+
+            Color currentColor = new Color
+                (Mathf.Lerp(startColor.r, endColor.r, percentageComplete),
+                Mathf.Lerp(startColor.g, endColor.g, percentageComplete),
+                Mathf.Lerp(startColor.b, endColor.b, percentageComplete));
+
+            foreach (SpriteRenderer bossBodyPart in bodyPartsToAnimate)
+            {
+                bossBodyPart.color = currentColor;
+            }
+
+            if (percentageComplete >= 1) break;
+
+            yield return new WaitForFixedUpdate();
+        }
+    }*/
+
+    #endregion
+
+
 }

@@ -50,9 +50,9 @@ public class BossZone : MonoBehaviour
     [SerializeField]
     Transform platformSet1TargetPos; // once platform set 1 reaches this, start moving both set 1 and 2
 
-    float platformMoveSpeed1 = -0.6f; // speed at which platform set 1 moves
-    float platformMoveSpeed2 = -1.7f; // speed at which platform set 1 and move together
-    float platformMoveSpeedIncrease = -0.5f;
+    float platformMoveSpeed1 = -0.66f; // speed at which platform set 1 moves
+    float platformMoveSpeed2 = -2.5f; // speed at which platform set 1 and move together
+    float platformMoveSpeedIncrease = -0.95f;
 
     bool isPlatformDestroyedAtLeastOnce = false;
     [SerializeField]
@@ -63,7 +63,7 @@ public class BossZone : MonoBehaviour
 
     private void Start()
     {
-        playerController.gameObject.transform.position = playerTeleportLocation.position;
+        //playerController.gameObject.transform.position = playerTeleportLocation.position;
         playerFreezeDuration = bossAppearAnimation.length;
     }
 
@@ -148,13 +148,11 @@ public class BossZone : MonoBehaviour
         if (!isPlatformDestroyedAtLeastOnce && platformSet2.transform.position.x <= firstPlatformDestroyPos.position.x)     
         {
             isPlatformDestroyedAtLeastOnce = true;
-            Debug.Log("MUST DESTROY 1");
             Destroy(platformSet2.gameObject);
             platformSet2 = Instantiate(platformSet3, platformSet3InitialPos);
         }
         else if (platformSet2.transform.position.x <= platformDestroyPos.position.x)
         {
-            Debug.Log("MUST DESTROY 1");
             Destroy(platformSet2.gameObject);
             platformSet2 = Instantiate(platformSet3, platformSet3InitialPos);
             platformMoveSpeed2 += platformMoveSpeedIncrease;
@@ -163,7 +161,6 @@ public class BossZone : MonoBehaviour
         // FIRST PLATFORM SET
         if (platformSet1.transform.position.x <= platformDestroyPos.position.x)
         {
-            Debug.Log("MUST DESTROY 2");
             Destroy(platformSet1.gameObject);
             platformSet1 = Instantiate(platformSet3, platformSet3InitialPos);
             platformMoveSpeed2 += platformMoveSpeedIncrease;

@@ -14,6 +14,10 @@ public class BossHand : MonoBehaviour
         {
             DealDamageToPlayer(collision.gameObject.GetComponent<PlayerController>());      
         }
+        else if (collision.gameObject.CompareTag("Ground"))
+        {
+            collision.gameObject.GetComponent<BossDestroyPlatform>().BeginFall();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -21,6 +25,10 @@ public class BossHand : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             DealDamageToPlayer(collision.gameObject.GetComponent<PlayerController>());
+        }
+        else if (collision.gameObject.CompareTag("Ground"))
+        {
+            collision.gameObject.GetComponent<BossDestroyPlatform>().BeginFall();
         }
     }
 

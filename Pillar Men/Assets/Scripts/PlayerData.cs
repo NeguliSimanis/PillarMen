@@ -8,7 +8,7 @@ public class PlayerData
 
     #region LIFE
     public int currentLife;
-    public int maxLife = 300;
+    public int maxLife = 110;
     #endregion
 
     #region MELEEATTACK

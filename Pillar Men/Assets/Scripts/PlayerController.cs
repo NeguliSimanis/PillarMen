@@ -80,6 +80,8 @@ public class PlayerController : MonoBehaviour
     #endregion
     void Start()
     {
+        Debug.Log(gameObject.GetComponent<SpriteRenderer>().color);
+
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerCollider = GetComponent<Collider2D>();

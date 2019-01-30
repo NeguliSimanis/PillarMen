@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Enemy
   - Boss
+  - PlayerSword
   layers:
   - Default
   - TransparentFX
