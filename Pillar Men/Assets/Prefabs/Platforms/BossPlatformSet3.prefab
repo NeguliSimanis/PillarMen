@@ -91,6 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf6dc61e3eb24d46be40df45da65fd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  platformFallSFX: {fileID: 8300000, guid: e00302d122007f2478389c597473d9b3, type: 3}
 --- !u!1 &2690369032688156604
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,6 +325,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf6dc61e3eb24d46be40df45da65fd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  platformFallSFX: {fileID: 0}
 --- !u!1 &6664241539916842179
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,6 +372,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf6dc61e3eb24d46be40df45da65fd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  platformFallSFX: {fileID: 0}
 --- !u!114 &8881620491438017131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,6 +386,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf6dc61e3eb24d46be40df45da65fd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  platformFallSFX: {fileID: 0}
 --- !u!114 &4459823032523332992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,6 +400,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf6dc61e3eb24d46be40df45da65fd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  platformFallSFX: {fileID: 0}
 --- !u!1 &7519221923902594408
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,6 +520,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf6dc61e3eb24d46be40df45da65fd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  platformFallSFX: {fileID: 0}
 --- !u!1001 &2654214361899253445
 PrefabInstance:
   m_ObjectHideFlags: 0

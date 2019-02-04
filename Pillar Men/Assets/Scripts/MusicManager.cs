@@ -19,6 +19,11 @@ public class MusicManager : MonoBehaviour
     [SerializeField]
     Animator bossPlatformDarkenAnimator;
 
+    #region PLATFORM SFX
+    [SerializeField]
+    AudioClip platformFallSFX;
+    #endregion
+
     bool isBossAppeared = false;
     bool isBossMusicSet = false;
     float bossMusicStartTime;
@@ -75,4 +80,8 @@ public class MusicManager : MonoBehaviour
         isBossAppeared = true;
     }
 
+    public void PlayPlatformFallSFX()
+    {
+        audioSource.PlayOneShot(platformFallSFX);
+    }
 }

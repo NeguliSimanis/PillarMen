@@ -63,6 +63,7 @@ public class BossZone : MonoBehaviour
 
     private void Start()
     {
+        //Debug.Log(gameObject.name);
         //playerController.gameObject.transform.position = playerTeleportLocation.position;
         playerFreezeDuration = bossAppearAnimation.length;
     }

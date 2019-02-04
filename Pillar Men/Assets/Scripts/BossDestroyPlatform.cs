@@ -5,8 +5,18 @@ using UnityEngine;
 public class BossDestroyPlatform : MonoBehaviour
 {
     bool isFalling = false;
+    bool fallSFXPlayed = false;
     float fallSpeed = 1.9f;
-    
+
+    [SerializeField]
+    MusicManager musicManager;
+    //[SerializeField]
+   // AudioClip platformFallSFX;
+
+    private void Start()
+    {
+        musicManager = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<MusicManager>();
+    }
 
     public void BeginFall()
     {
@@ -25,14 +35,24 @@ public class BossDestroyPlatform : MonoBehaviour
         if (isFalling)
         {
             PlatformFall();
+            
         }
+    }
+
+    void PlayFallSFX()
+    {
+        musicManager.PlayPlatformFallSFX();
     }
 
     void PlatformFall()
     {
         //if (isFallen)
         //    return;
-
+        if (!fallSFXPlayed)
+        {
+            fallSFXPlayed = true;
+            PlayFallSFX();
+        }
         transform.position = new Vector2(transform.position.x, transform.position.y - fallSpeed * Time.deltaTime);
     }
 }
