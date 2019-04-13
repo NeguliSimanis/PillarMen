@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class PlayerEndJumpArea : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    PlayerController playerController;
+    Animator animator;
+
     void Start()
     {
-        
+       // playerController = gameObject.GetComponent<PlayerController>();
+        animator = transform.parent.gameObject.GetComponent<Animator>(); 
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+       if(collision.gameObject.tag == "Ground")
+        {
+            animator.SetTrigger("endJump");
+        }
     }
+
 }
