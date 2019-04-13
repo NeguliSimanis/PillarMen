@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    bool physicsMovementEnabled = false;
+
     #region PHYSICS
     [SerializeField]
     PhysicsMaterial2D playerSlipperyMaterial;
@@ -61,8 +63,7 @@ public class PlayerController : MonoBehaviour
     bool hasDoubleJumped = false;
     [SerializeField]
     float jumpForce;
-    [SerializeField]
-    float doubleJumpForce;
+    // doubleJumpForce;
 
     [SerializeField]
     Collider2D[] collidersToDisableWhileJumping;
@@ -124,11 +125,6 @@ public class PlayerController : MonoBehaviour
         {
             isMoveFrozen = false;
         }
-        /*if (isWalking)
-        {
-            CheckIfPlayerNearTargetPosition();
-            Debug.Log("Target walking position " + targetPosition);
-        }*/
     }
 
     void ManageAttackInput()
@@ -143,8 +139,7 @@ public class PlayerController : MonoBehaviour
             else if (Time.time > nextMeleeAttackTime)
             {
                 MeleeAttack();
-            }
-           
+            }         
         }
     }
 
@@ -195,7 +190,6 @@ public class PlayerController : MonoBehaviour
         CheckWherePlayerIsFacing();
 
         // horizontal movement
-        
         Vector2 movement = new Vector2(horizontalMoveInput, 0);
         if (rigidBody2D.velocity.x < playerMaxSpeedXaxis && rigidBody2D.velocity.x > -playerMaxSpeedXaxis)
         {
@@ -222,17 +216,7 @@ public class PlayerController : MonoBehaviour
         {
             playerCollider.sharedMaterial = playerNormalMaterial;
         }
-        /*if (isWalking)
-        {
-            MouseWalk();
-        }*/
     }
-
-    /*void MouseWalk()
-    {
-        rigidBody2D.AddForce(dirNormalized * playerSpeed);
-        //GetDirNormalized(targetPosition);
-    }*/
 
     void Jump()
     {
@@ -251,16 +235,17 @@ public class PlayerController : MonoBehaviour
             isJumping = true;
         }
         DisableCollisionsWithPlatforms(true);
+        AddJumpForce();
+    }
+
+    public void AddJumpForce()
+    {
         rigidBody2D.AddForce(new Vector2(0, jumpForce));
     }
 
     void DisableCollisionsWithPlatforms(bool disable)
     {
         Physics.IgnoreLayerCollision(8, 11, !disable);
-        /*foreach (Collider2D collider in collidersToDisableWhileJumping)
-        {
-            collider.enabled = !disable;
-        }*/
     }
 
     void GetTargetPositionAndDirection()
@@ -320,8 +305,6 @@ public class PlayerController : MonoBehaviour
     
     public void  StopJumping()
     {
-        //StopWalking();
-        //Debug.Log("Stop jumping " + Time.time);
         isJumping = false;
         hasDoubleJumped = false;
         animator.SetBool("isJumping", false);
@@ -361,18 +344,6 @@ public class PlayerController : MonoBehaviour
             isFacingRight = true;
             gameObject.transform.localScale = new Vector2(1f, 1f);
         }
-
-        // ARTIFACT FROM MOUSE CONTROLS
-        /*if (isFacingRight && dirNormalized.x < 0)
-        {
-            isFacingRight = false;
-            gameObject.transform.localScale = new Vector2(-1f, 1f);
-        }
-        else if (!isFacingRight && dirNormalized.x > 0)
-        {
-            isFacingRight = true;
-            gameObject.transform.localScale = new Vector2(1f, 1f);
-        }*/
     }
 
 }
