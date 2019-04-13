@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1461088784}
   - component: {fileID: 1461088785}
   - component: {fileID: 1124324991598465983}
-  m_Layer: 11
+  m_Layer: 13
   m_Name: Zobens
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2164,7 +2164,6 @@ MonoBehaviour:
   playerMaxSpeedXaxis: 9
   isStandingOnGround: 1
   jumpForce: 560
-  doubleJumpForce: 610
   collidersToDisableWhileJumping:
   - {fileID: 2660271961445457444}
   - {fileID: 923521327}

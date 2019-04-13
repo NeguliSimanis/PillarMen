@@ -366,7 +366,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isLanding
+    m_ConditionEvent: endJump
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: isFlying
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102200264203596460}
@@ -1229,10 +1232,10 @@ AnimatorStateMachine:
     m_Position: {x: 432, y: 768, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102622427447390544}
-    m_Position: {x: -276, y: 120, z: 0}
+    m_Position: {x: -264, y: 72, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102200264203596460}
-    m_Position: {x: -576, y: 120, z: 0}
+    m_Position: {x: -816, y: -72, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102792347587924146}
     m_Position: {x: -204, y: -48, z: 0}
