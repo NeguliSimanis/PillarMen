@@ -155,6 +155,7 @@ GameObject:
   - component: {fileID: 1774154466}
   - component: {fileID: 1774154468}
   - component: {fileID: 1774154467}
+  - component: {fileID: 363571509074412838}
   m_Layer: 10
   m_Name: SmartPlatform4_medium
   m_TagString: Ground
@@ -233,7 +234,7 @@ EdgeCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1774154465}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -247,3 +248,62 @@ EdgeCollider2D:
   - {x: 0.70336914, y: 1.0147247}
   - {x: 0.9976196, y: 1.0620728}
   - {x: 1.2610779, y: 1.3016052}
+--- !u!60 &363571509074412838
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774154465}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.815, y: 3.71}
+    newSize: {x: 8.87, y: 7.91}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1.2325, y: -1.6899999}
+      - {x: 0.89126587, y: -1.330246}
+      - {x: 0.9675, y: -1.145}
+      - {x: 0.98749995, y: -0.21}
+      - {x: 0.97749996, y: -0.21}
+      - {x: 0.9975, y: 0.16499999}
+      - {x: 1.0325, y: 0.48}
+      - {x: 1.0325, y: 0.60499996}
+      - {x: 1.0425, y: 0.73499995}
+      - {x: 1.0825, y: 0.78999996}
+      - {x: 1.1725, y: 0.96999997}
+      - {x: 1.3136597, y: 1.4040985}
+      - {x: -1.0224999, y: 1.405}
+      - {x: -1.0224999, y: 1.3149999}
+      - {x: -0.86249995, y: 0.91499996}
+      - {x: -0.7775, y: 0.78499997}
+      - {x: -0.4825, y: 0.315}
+      - {x: -0.5480652, y: -0.22950745}
+      - {x: -0.6925, y: -0.62}
+      - {x: -0.8875, y: -0.965}
+      - {x: -1.0375, y: -1.22}
+      - {x: -1.3675, y: -1.78}
+      - {x: -1.4024999, y: -1.8249999}
+      - {x: -1.4074999, y: -1.8299999}
+      - {x: -1.4074999, y: -1.8549999}
+      - {x: 1.4074999, y: -1.8549999}
+      - {x: 1.4074999, y: -1.8399999}
+      - {x: 1.2975, y: -1.76}
+    - - {x: 1.2025, y: 0.825}
+      - {x: 1.1975, y: 0.815}
+      - {x: 1.2175, y: 0.825}
+    - - {x: 1.2425, y: 1.02}
+      - {x: 1.2075, y: 0.83}
+      - {x: 1.2624999, y: 1.02}
