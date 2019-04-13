@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Jumping
+    private float yJumpHeight = 1f;
     public bool isStandingOnGround = true;
     bool isJumping = false;
     bool hasDoubleJumped = false;
@@ -222,11 +223,13 @@ public class PlayerController : MonoBehaviour
     {
         if (hasDoubleJumped)
             return;
+        DisableCollisionsWithPlatforms(true);
         // double jump
         if (isJumping)
         {
             animator.SetTrigger("doubleJump");
             hasDoubleJumped = true;
+            AddJumpForce();
         }
         // regular jump
         else
@@ -234,8 +237,6 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("isJumping", true);
             isJumping = true;
         }
-        DisableCollisionsWithPlatforms(true);
-        AddJumpForce();
     }
 
     public void AddJumpForce()
