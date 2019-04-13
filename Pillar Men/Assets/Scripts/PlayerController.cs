@@ -58,7 +58,12 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Jumping
-    private float yJumpHeight = 1f;
+    // 13 April
+    private bool canJumpNow = false; // becomes false in most collisions, becomes true on player input
+    private float yJumpHeight = 5f;
+    private float targetHeight;
+    // eof
+
     public bool isStandingOnGround = true;
     bool isJumping = false;
     bool hasDoubleJumped = false;
@@ -165,6 +170,10 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
+        if (isJumping)
+        {
+            MoveUpwards();
+        }
     }
 
     void ManageHorizontalMoveInput()
@@ -229,7 +238,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetTrigger("doubleJump");
             hasDoubleJumped = true;
-            AddJumpForce();
+            SetJumpTargetPosition();
         }
         // regular jump
         else
@@ -239,10 +248,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void AddJumpForce()
+    public void SetJumpTargetPosition()
     {
-        rigidBody2D.AddForce(new Vector2(0, jumpForce));
+        canJumpNow = true;
+        gameObject.transform.position = new Vector2(transform.position.x, transform.position.y + yJumpHeight);
+        //rigidBody2D.AddForce(new Vector2(0, jumpForce));
     }
+
+    private void MoveUpwards()
+    {
+        if (!canJumpNow)
+            return;
+    }
+
 
     void DisableCollisionsWithPlatforms(bool disable)
     {
