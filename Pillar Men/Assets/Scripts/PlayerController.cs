@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
 
     private float playerSpeed = 1400f;
     private float playerMaxSpeedXaxis = 10;
+    private float horizontalFlyingSpeedMultiplier = 0.8f;
 
     private Vector2 targetPosition;
     private Vector2 dirNormalized;
@@ -65,7 +66,7 @@ public class PlayerController : MonoBehaviour
 
     public bool isStandingOnGround = true;
     bool isJumping = false;
-    bool hasDoubleJumped = false;
+    public bool hasDoubleJumped = false;
     float jumpForce = 600f;
     // doubleJumpForce;
 
@@ -117,7 +118,7 @@ public class PlayerController : MonoBehaviour
 
         if (isDead)
             return;
-
+       // Debug.Log(rigidBody2D.velocity + " " + Time.time);
         if (!isMoveFrozen)
         {
             //ManageLeftMouseInput();
@@ -168,12 +169,17 @@ public class PlayerController : MonoBehaviour
 
     void ManageJumpInput()
     {
-        if ( Input.GetKeyDown(KeyCode.W) ||
+        if (Input.GetKeyDown(KeyCode.W) ||
             Input.GetKeyDown(KeyCode.UpArrow))
         {
-            Jump();
-
-            IgnoreCollisionsWithPlatforms();
+            AnimatorClipInfo[] currentClipInfo = animator.GetCurrentAnimatorClipInfo(0);
+            Debug.Log(currentClipInfo[0].clip.name);
+            if (currentClipInfo[0].clip.name != "Jump" || !hasDoubleJumped)
+            {
+                Jump();
+                IgnoreCollisionsWithPlatforms();
+            }
+            
         }
         else
         {
@@ -200,6 +206,7 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKey(KeyCode.LeftArrow) ||
             Input.GetKey(KeyCode.A))
         {
+           
             horizontalMoveInput = -1;
         }
         else
@@ -214,20 +221,29 @@ public class PlayerController : MonoBehaviour
         CheckWherePlayerIsFacing();
 
         // horizontal movement
-        Vector2 movement = new Vector2(horizontalMoveInput, 0);
+        Vector2 movement = new Vector2(horizontalMoveInput, 0.2f);
         if (rigidBody2D.velocity.x < playerMaxSpeedXaxis && rigidBody2D.velocity.x > -playerMaxSpeedXaxis)
         {
             if (!isMoveFrozen && horizontalMoveInput!=0)
             {
                 float currSpeed = playerSpeed;
-               
+
                 if (!isStandingOnGround)
-                    currSpeed = 0.8f * playerSpeed;
-                rigidBody2D.AddForce(movement * currSpeed * Time.deltaTime);
+                {
+                    currSpeed = horizontalFlyingSpeedMultiplier * playerSpeed;
+                    if (rigidBody2D.velocity.x < playerMaxSpeedXaxis * horizontalFlyingSpeedMultiplier &&
+                        rigidBody2D.velocity.x > -playerMaxSpeedXaxis * horizontalFlyingSpeedMultiplier)
+                    rigidBody2D.AddForce(movement * currSpeed * Time.deltaTime);
+                }
+                else
+                {
+                    rigidBody2D.AddForce(movement * currSpeed * Time.deltaTime);
+                }
             }
         }
 
-        if (rigidBody2D.velocity.x > 0.01 || rigidBody2D.velocity.x < -0.01)
+        if ((rigidBody2D.velocity.x > 0.01 || rigidBody2D.velocity.x < -0.01)
+            && isStandingOnGround)
         {
             animator.SetBool("isRunning", true);
             CheckWherePlayerIsFacing();
@@ -250,12 +266,18 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
+        //Debug.Log("ju,ping1");
         if (hasDoubleJumped)
+        {
             return;
+        }
+       // Debug.Log("ju,ping2");
+        //Debug.Log(isStandingOnGround + " " + Time.time);
         DisableCollisionsWithPlatforms(true);
         // double jump
-        if (isJumping)
+        if (!isStandingOnGround)
         {
+            //Debug.Log("hy");
             animator.SetTrigger("doubleJump");
             hasDoubleJumped = true;
         }
@@ -263,15 +285,16 @@ public class PlayerController : MonoBehaviour
         else
         {
             animator.SetBool("isJumping", true);
+            animator.SetTrigger("jump");
             isJumping = true;
+            hasDoubleJumped = false;
         }
     }
 
     public void SetJumpTargetPosition()
     {
         //Debug.Log("CAN JUMP " + Time.time);
-        canJumpNow = true;
-        
+        canJumpNow = true;       
         targetHeight = transform.position.y + yJumpHeight;
         //rigidBody2D.AddForce(new Vector2(0, jumpForce));
         MoveUpwards();
@@ -292,7 +315,7 @@ public class PlayerController : MonoBehaviour
         float currJumpForce = jumpForce;
         if (!isStandingOnGround)
             currJumpForce = 0.7f * currJumpForce;
-        rigidBody2D.AddForce(new Vector2(0, jumpForce));
+        rigidBody2D.AddForce(new Vector2(0, currJumpForce));
         //transform.position = new Vector2(transform.position.x, transform.position.y + jumpSpeed * Time.deltaTime);
     }
 

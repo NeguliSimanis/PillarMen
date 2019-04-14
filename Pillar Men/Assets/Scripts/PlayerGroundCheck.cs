@@ -9,19 +9,21 @@ public class PlayerGroundCheck : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.layer == 10)
         {
             playerController.isStandingOnGround = true;
-            playerController.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0f;
+           // playerController.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0f;
            
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+       // Debug.Log("stop man0! " + Time.time + " " + collision.gameObject.layer);
+        if (collision.gameObject.layer == 10)
         {
             playerController.StopJumping();
+            playerController.isStandingOnGround = true;
             //Debug.Log("HEY STOP! " + Time.time);
         }
     }
@@ -36,7 +38,7 @@ public class PlayerGroundCheck : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.layer == 10)
         {
             playerController.isStandingOnGround = false;
             playerController.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1f;

@@ -69,7 +69,7 @@ public class CameraFollow : MonoBehaviour
                     cameraDisplaced = true;
                     StartCoroutine(MoveCameraOnYaxis(transform.position.y, transform.position.y - cameraYdisplacementDown, cameraYdisplacementTime));
                 }
-                Debug.Log("camera too high");
+                //Debug.Log("camera too high");
             }
             else if (transform.position.y - desiredPos.y < -maxYdiffUp)
             {
@@ -84,7 +84,7 @@ public class CameraFollow : MonoBehaviour
                     cameraDisplaced = true;
                     StartCoroutine(MoveCameraOnYaxis(transform.position.y, transform.position.y + cameraYdisplacement, cameraYdisplacementTime));
                 }
-                Debug.Log("camera too low");
+                //Debug.Log("camera too low");
             }
             else
             {

@@ -50,7 +50,7 @@ public class BossZone : MonoBehaviour
     [SerializeField]
     Transform platformSet1TargetPos; // once platform set 1 reaches this, start moving both set 1 and 2
 
-    float platformMoveSpeed1 = -0.66f; // speed at which platform set 1 moves
+    float platformMoveSpeed1 = -0.86f; // speed at which platform set 1 moves
     float platformMoveSpeed2 = -2.5f; // speed at which platform set 1 and move together
     float platformMoveSpeedIncrease = -0.95f;
 
