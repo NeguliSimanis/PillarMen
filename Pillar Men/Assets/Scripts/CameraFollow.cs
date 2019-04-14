@@ -16,6 +16,17 @@ public class CameraFollow : MonoBehaviour
     float cameraSizeAfterBoss = 8.97f;
     private Vector3 offset;         //Private variable to store the offset distance between the player and camera
     bool followPlayer = true;
+    float cameraDefaultYpos;
+    float cameraDefaultSize;
+    float cameraZoomOutSize;
+    float cameraZoomOutValue = 2f;
+    bool cameraDisplaced = false;
+    float cameraZoomOutTime = 2f;
+    float maxYdiffUp = 5f;
+    float maxYdiffDown = 2f;
+    float cameraYdisplacement = 3f;
+    float cameraYdisplacementDown = 5f;
+    float cameraYdisplacementTime = 2f;
 
     // Use this for initialization
     void Start()
@@ -23,6 +34,10 @@ public class CameraFollow : MonoBehaviour
         //Calculate and store the offset value by getting the distance between the player's position and camera's position.
         offset = transform.position - player.transform.position;
         camera = GetComponent<Camera>();
+        transform.position = player.transform.position + offset;
+        cameraDefaultYpos = transform.position.y;
+        cameraDefaultSize = camera.orthographicSize;
+        cameraZoomOutSize = cameraDefaultSize + cameraZoomOutValue;
     }
 
 
@@ -38,7 +53,133 @@ public class CameraFollow : MonoBehaviour
     {
         // Set the position of the camera's transform to be the same as the player's, but offset by the calculated offset distance.
         if (followPlayer)
-            transform.position = player.transform.position + offset;
+        {
+            //transform.position = player.transform.position + offset;
+            Vector3 desiredPos = player.transform.position + offset;
+
+            if (transform.position.y - desiredPos.y > maxYdiffDown)
+            {
+                /*if (!cameraDisplaced)
+                {
+                    cameraDisplaced = true;
+                    StartCoroutine(ZoomCamera(camera.orthographicSize, cameraZoomOutSize, cameraZoomOutTime));
+                }*/
+                if (!cameraDisplaced)
+                {
+                    cameraDisplaced = true;
+                    StartCoroutine(MoveCameraOnYaxis(transform.position.y, transform.position.y - cameraYdisplacementDown, cameraYdisplacementTime));
+                }
+                Debug.Log("camera too high");
+            }
+            else if (transform.position.y - desiredPos.y < -maxYdiffUp)
+            {
+                /*if (!cameraDisplaced)
+                {
+                    cameraDisplaced = true;
+                    StartCoroutine(ZoomCamera(camera.orthographicSize, cameraZoomOutSize, cameraZoomOutTime));
+                }*/
+
+                if (!cameraDisplaced)
+                {
+                    cameraDisplaced = true;
+                    StartCoroutine(MoveCameraOnYaxis(transform.position.y, transform.position.y + cameraYdisplacement, cameraYdisplacementTime));
+                }
+                Debug.Log("camera too low");
+            }
+            else
+            {
+                /*if (cameraDisplaced)
+                {
+                    cameraDisplaced = false;
+                    StartCoroutine(ZoomCamera(camera.orthographicSize, cameraDefaultSize, cameraZoomOutTime, false));
+                }*/
+                if (cameraDisplaced)
+                {
+                    cameraDisplaced = false;
+                    StartCoroutine(MoveCameraOnYaxis(transform.position.y, cameraDefaultYpos, cameraYdisplacementTime));
+                }
+            }
+            transform.position = new Vector3(player.transform.position.x + offset.x, transform.position.y, player.transform.position.z + offset.z);
+        }
+    }
+
+
+    public IEnumerator MoveCameraOnYaxis(float startY, float endY, float lerpTime = 1, bool displaceOriginalY = true)
+    {
+
+        float _timeStartedLerping = Time.time;
+        float timeSinceStarted = Time.time - _timeStartedLerping;
+        float percentageComplete = timeSinceStarted / lerpTime;
+
+        if (displaceOriginalY)
+        {
+            while (cameraDisplaced)
+            {
+                timeSinceStarted = Time.time - _timeStartedLerping;
+                percentageComplete = timeSinceStarted / lerpTime;
+                float currentCameraYpos = Mathf.Lerp(startY, endY, percentageComplete);
+
+                transform.position = new Vector3 (transform.position.x, currentCameraYpos, transform.position.z);
+
+                if (percentageComplete >= 1) break;
+
+                yield return new WaitForFixedUpdate();
+            }
+        }
+        else
+        {
+            while (!cameraDisplaced)
+            {
+                timeSinceStarted = Time.time - _timeStartedLerping;
+                percentageComplete = timeSinceStarted / lerpTime;
+                float currentCameraYpos = Mathf.Lerp(startY, endY, percentageComplete);
+
+                transform.position = new Vector3(transform.position.x, currentCameraYpos, transform.position.z);
+
+                if (percentageComplete >= 1) break;
+
+                yield return new WaitForFixedUpdate();
+            }
+        }
+    }
+
+    public IEnumerator ZoomCamera(float cameraStartSize, float cameraEndSize, float lerpTime = 1, bool zoomOut = true)
+    {
+        
+        float _timeStartedLerping = Time.time;
+        float timeSinceStarted = Time.time - _timeStartedLerping;
+        float percentageComplete = timeSinceStarted / lerpTime;
+
+        if (zoomOut)
+        {
+            while (cameraDisplaced)
+            {
+                timeSinceStarted = Time.time - _timeStartedLerping;
+                percentageComplete = timeSinceStarted / lerpTime;
+                float currentCameraSize = Mathf.Lerp(cameraStartSize, cameraEndSize, percentageComplete);
+
+                camera.orthographicSize = currentCameraSize;
+
+                if (percentageComplete >= 1) break;
+
+                yield return new WaitForFixedUpdate();
+            }
+        }
+        else
+        {
+            while (!cameraDisplaced)
+            {
+                timeSinceStarted = Time.time - _timeStartedLerping;
+                percentageComplete = timeSinceStarted / lerpTime;
+                float currentCameraSize = Mathf.Lerp(cameraStartSize, cameraEndSize, percentageComplete);
+
+                camera.orthographicSize = currentCameraSize;
+
+                if (percentageComplete >= 1) break;
+
+                yield return new WaitForFixedUpdate();
+            }
+        }
     }
 
     IEnumerator Shake(float duration, float magnitude)

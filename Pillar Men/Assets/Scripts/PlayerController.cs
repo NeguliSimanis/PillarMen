@@ -48,10 +48,8 @@ public class PlayerController : MonoBehaviour
     bool isNearTargetPosition = false;
     bool isWalking = false;
 
-    [SerializeField]
-    private float playerSpeed;
-    [SerializeField]
-    private float playerMaxSpeedXaxis = 3;
+    private float playerSpeed = 1400f;
+    private float playerMaxSpeedXaxis = 10;
 
     private Vector2 targetPosition;
     private Vector2 dirNormalized;
@@ -61,14 +59,14 @@ public class PlayerController : MonoBehaviour
     // 13 April
     private bool canJumpNow = false; // becomes false in most collisions, becomes true on player input
     private float yJumpHeight = 5f;
+    private float jumpSpeed = 15f; 
     private float targetHeight;
     // eof
 
     public bool isStandingOnGround = true;
     bool isJumping = false;
     bool hasDoubleJumped = false;
-    [SerializeField]
-    float jumpForce;
+    float jumpForce = 600f;
     // doubleJumpForce;
 
     [SerializeField]
@@ -87,7 +85,7 @@ public class PlayerController : MonoBehaviour
     #endregion
     void Start()
     {
-        Debug.Log(gameObject.GetComponent<SpriteRenderer>().color);
+        //Debug.Log(gameObject.GetComponent<SpriteRenderer>().color);
 
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -131,6 +129,11 @@ public class PlayerController : MonoBehaviour
         {
             isMoveFrozen = false;
         }
+        if (isStandingOnGround)
+        {
+            isJumping = false;
+        }
+        //Debug.Log("velocity " + rigidBody2D.velocity.x + ". Time: " +  + Time.time);
     }
 
     void ManageAttackInput()
@@ -169,11 +172,22 @@ public class PlayerController : MonoBehaviour
             Input.GetKeyDown(KeyCode.UpArrow))
         {
             Jump();
+
+            IgnoreCollisionsWithPlatforms();
         }
-        if (isJumping)
+        else
+        {
+            IgnoreCollisionsWithPlatforms(false);
+        }
+        /*if (canJumpNow)
         {
             MoveUpwards();
-        }
+        }*/
+    }
+
+    void IgnoreCollisionsWithPlatforms(bool ignore = true)
+    {
+        Physics.IgnoreLayerCollision(11, 10, ignore);
     }
 
     void ManageHorizontalMoveInput()
@@ -203,8 +217,14 @@ public class PlayerController : MonoBehaviour
         Vector2 movement = new Vector2(horizontalMoveInput, 0);
         if (rigidBody2D.velocity.x < playerMaxSpeedXaxis && rigidBody2D.velocity.x > -playerMaxSpeedXaxis)
         {
-            if (!isMoveFrozen)
-                rigidBody2D.AddForce(movement * playerSpeed);
+            if (!isMoveFrozen && horizontalMoveInput!=0)
+            {
+                float currSpeed = playerSpeed;
+               
+                if (!isStandingOnGround)
+                    currSpeed = 0.8f * playerSpeed;
+                rigidBody2D.AddForce(movement * currSpeed * Time.deltaTime);
+            }
         }
 
         if (rigidBody2D.velocity.x > 0.01 || rigidBody2D.velocity.x < -0.01)
@@ -238,7 +258,6 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetTrigger("doubleJump");
             hasDoubleJumped = true;
-            SetJumpTargetPosition();
         }
         // regular jump
         else
@@ -250,16 +269,34 @@ public class PlayerController : MonoBehaviour
 
     public void SetJumpTargetPosition()
     {
+        //Debug.Log("CAN JUMP " + Time.time);
         canJumpNow = true;
-        gameObject.transform.position = new Vector2(transform.position.x, transform.position.y + yJumpHeight);
+        
+        targetHeight = transform.position.y + yJumpHeight;
         //rigidBody2D.AddForce(new Vector2(0, jumpForce));
+        MoveUpwards();
     }
 
     private void MoveUpwards()
     {
+        if (targetHeight <= transform.position.y)
+        {
+            Debug.Log("target reached " + Time.time);
+            canJumpNow = false;
+        }
         if (!canJumpNow)
+        {
+            Debug.Log("cant jump " + Time.time);
             return;
+        }
+        float currJumpForce = jumpForce;
+        if (!isStandingOnGround)
+            currJumpForce = 0.7f * currJumpForce;
+        rigidBody2D.AddForce(new Vector2(0, jumpForce));
+        //transform.position = new Vector2(transform.position.x, transform.position.y + jumpSpeed * Time.deltaTime);
     }
+
+
 
 
     void DisableCollisionsWithPlatforms(bool disable)
@@ -332,7 +369,19 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (isJumping)
+        {
+            //canJumpNow = false;
+            //if (collision.gameObject.CompareTag("Ground"))
+            //{
+            StopJumping();
+            //}
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (isJumping)
         {
             StopJumping();
         }

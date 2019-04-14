@@ -12,23 +12,34 @@ public class PlayerGroundCheck : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             playerController.isStandingOnGround = true;
+            playerController.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0f;
            
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
             playerController.StopJumping();
+            //Debug.Log("HEY STOP! " + Time.time);
         }
     }
+    /*private void OnCollisionEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            playerController.StopJumping();
+            Debug.Log("HEY STOP!");
+        }
+    }*/
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
             playerController.isStandingOnGround = false;
+            playerController.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1f;
         }
     }
 
