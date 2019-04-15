@@ -1358,6 +1358,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathAnimation: {fileID: 7400000, guid: 8967debe51b6944449a5f3d657835729, type: 2}
+  itemToDropOnDeath: {fileID: 6794231606746385362, guid: 1eafc6b53c944f84a8b5ca7a8fc83235,
+    type: 3}
   isStandingOnGround: 1
   canJumpRight: 0
   canJumpLeft: 0

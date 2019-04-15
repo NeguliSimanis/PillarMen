@@ -14,6 +14,9 @@ public class EnemyController : MonoBehaviour
     float deathTime;
     [SerializeField]
     AnimationClip deathAnimation;
+    [SerializeField]
+    GameObject itemToDropOnDeath;
+    Vector3 itemToDropPosition;
     #endregion
 
     #region ENEMY SIGHT & targetting
@@ -79,12 +82,14 @@ public class EnemyController : MonoBehaviour
         if (isDying)
             return;
         currentHealth -= amount;
+        itemToDropPosition = transform.position;
         enemyAnimator.SetTrigger("hurt");
         if (currentHealth <= 0)
         {
             isDying = true;
             enemyAnimator.SetTrigger("die");
             enemyAnimator.SetBool("isDying", true);
+            
             deathTime = Time.time + deathAnimation.length + 1.3f;
         }
     }
@@ -102,6 +107,9 @@ public class EnemyController : MonoBehaviour
 
     public void Die()
     {
+        //GameObject drop = Instantiate(itemToDropOnDeath,itemToDropPosition,false);
+        GameObject drop = Instantiate(itemToDropOnDeath);// ', itemToDropPosition.position, Quaternion.identity);
+        drop.transform.position = itemToDropPosition;
         Destroy(gameObject);
     }
 

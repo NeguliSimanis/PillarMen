@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-
+    [SerializeField]
+    bool isMainCamera = true;
     [SerializeField]
     private GameObject player;       //variable to store a reference to the player game object
     [SerializeField]
@@ -14,6 +15,7 @@ public class CameraFollow : MonoBehaviour
 
     Camera camera;
     float cameraSizeAfterBoss = 8.97f;
+    float camera2SizeAfterBoss = 8.67f;
     private Vector3 offset;         //Private variable to store the offset distance between the player and camera
     bool followPlayer = true;
     float cameraDefaultYpos;
@@ -51,8 +53,13 @@ public class CameraFollow : MonoBehaviour
     // LateUpdate is called after Update each frame
     void LateUpdate()
     {
+        if (!isMainCamera)
+        {
+            //Debug.Log("correct");
+            //Debug.Log(transform.position + " " + Time.time);
+        }
         // Set the position of the camera's transform to be the same as the player's, but offset by the calculated offset distance.
-        if (followPlayer)
+        if (followPlayer && isMainCamera)
         {
             //transform.position = player.transform.position + offset;
             Vector3 desiredPos = player.transform.position + offset;
@@ -206,12 +213,26 @@ public class CameraFollow : MonoBehaviour
 
         /*StartCoroutine(MoveCameraAfterBossShake(transform.position, player.transform.position + offset,
             camera.orthographicSize, cameraSizeAfterBoss,1f));*/
+        if (isMainCamera)
+        {
+            
+            GameObject childCamera = transform.GetChild(0).gameObject;
+            CameraFollow childCameraFollow = childCamera.GetComponent<CameraFollow>();
+            childCameraFollow.MoveSecondaryCamera();
+            
+        }
         StartCoroutine(MoveCameraAfterBossShake(transform.position, cameraBossPosition2.position,
         camera.orthographicSize, cameraSizeAfterBoss, 1f));
         /* transform.position = originalPos;
          followPlayer = true;*/
     }
 
+    public void MoveSecondaryCamera()
+    {
+        //Debug.Log("YAH"); 
+        StartCoroutine(MoveCameraAfterBossShake(transform.position, new Vector3(34.1f, 1.5f, -19.9f),  //new Vector3(0, -1.56f, transform.position.z), 
+       camera.orthographicSize, camera2SizeAfterBoss, 1f));
+    }
 
     public IEnumerator MoveCameraAfterBossShake(Vector3 startPosition, Vector3 endPosition,
         float cameraStartSize, float cameraEndSize, float lerpTime = 1)
@@ -219,7 +240,11 @@ public class CameraFollow : MonoBehaviour
         float _timeStartedLerping = Time.time;
         float timeSinceStarted = Time.time - _timeStartedLerping;
         float percentageComplete = timeSinceStarted / lerpTime;
-
+        if (!isMainCamera)
+        {
+            //Debug.Log("correct");
+            //Debug.Log(transform.position);
+        }
         while (true)
         {
             timeSinceStarted = Time.time - _timeStartedLerping;

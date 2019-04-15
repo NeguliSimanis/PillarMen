@@ -89,8 +89,9 @@ public class BossZone : MonoBehaviour
         // MANAGE PLAYER
         RelocatePlayerToBossZone();
         //StartCoroutine(StartMovingBossPlatformsAfterDelay());
-        
+
         // MANAGE CAMERA SHAKE
+        cameraController.gameObject.GetComponent<Camera>().orthographicSize = 5.88f;
         cameraController.ScreenShake(bossAppearAnimation.length, screenShakeMagnitude);
 
         // MANAGE PLATFORMS

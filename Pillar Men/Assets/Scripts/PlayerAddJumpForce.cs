@@ -9,7 +9,7 @@ public class PlayerAddJumpForce : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("yay " + Time.time);
+       // Debug.Log("yay " + Time.time);
         playerController.SetJumpTargetPosition();
 
     }

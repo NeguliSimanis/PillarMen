@@ -105,6 +105,10 @@ public class PlayerController : MonoBehaviour
         healthBar.value = (PlayerData.current.currentLife * 1f) / PlayerData.current.maxLife;
     }
 
+    public void Heal(int amount)
+    {
+        PlayerData.current.currentLife += amount;
+    }
     void Update()
     {
         //Debug.Log(rigidBody2D.velocity + " " + Time.time);
@@ -173,7 +177,7 @@ public class PlayerController : MonoBehaviour
             Input.GetKeyDown(KeyCode.UpArrow))
         {
             AnimatorClipInfo[] currentClipInfo = animator.GetCurrentAnimatorClipInfo(0);
-            Debug.Log(currentClipInfo[0].clip.name);
+           // Debug.Log(currentClipInfo[0].clip.name);
             if (currentClipInfo[0].clip.name != "Jump" || !hasDoubleJumped)
             {
                 Jump();
@@ -302,6 +306,7 @@ public class PlayerController : MonoBehaviour
 
     private void MoveUpwards()
     {
+        Debug.Log("here " + Time.time);
         if (targetHeight <= transform.position.y)
         {
             Debug.Log("target reached " + Time.time);
@@ -315,6 +320,7 @@ public class PlayerController : MonoBehaviour
         float currJumpForce = jumpForce;
         if (!isStandingOnGround)
             currJumpForce = 0.7f * currJumpForce;
+        Debug.Log("currjump " + currJumpForce + " " + Time.time);
         rigidBody2D.AddForce(new Vector2(0, currJumpForce));
         //transform.position = new Vector2(transform.position.x, transform.position.y + jumpSpeed * Time.deltaTime);
     }
