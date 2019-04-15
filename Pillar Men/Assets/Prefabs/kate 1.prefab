@@ -2232,6 +2232,7 @@ MonoBehaviour:
   meleeAttackAnimation: {fileID: 7400000, guid: 72d35d31fe11dbd4a92f3925c734ecd7,
     type: 2}
   isStandingOnGround: 1
+  hasDoubleJumped: 0
   collidersToDisableWhileJumping:
   - {fileID: 2660271961445457444}
   - {fileID: 923521327}
@@ -2249,9 +2250,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
-  m_LinearDrag: 1
-  m_AngularDrag: 0.8
+  m_Mass: 1
+  m_LinearDrag: 2
+  m_AngularDrag: 1
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
