@@ -8,6 +8,11 @@ public class PlayerController : MonoBehaviour
 {
     bool physicsMovementEnabled = false;
 
+    #region CHEATS
+    [SerializeField]
+    Transform teleportPos;
+    #endregion
+
     #region PHYSICS
     [SerializeField]
     PhysicsMaterial2D playerSlipperyMaterial;
@@ -18,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rigidBody2D;
     bool isDead = false;
+    bool isIgnoringPlatformColliders = false;
 
     #region Managers
     [SerializeField]
@@ -87,6 +93,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         //Debug.Log(gameObject.GetComponent<SpriteRenderer>().color);
+        //DisableCollisionsWithPlatforms(true);
 
         rigidBody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -125,10 +132,10 @@ public class PlayerController : MonoBehaviour
        // Debug.Log(rigidBody2D.velocity + " " + Time.time);
         if (!isMoveFrozen)
         {
-            //ManageLeftMouseInput();
             ManageAttackInput();
             ManageHorizontalMoveInput();
             ManageJumpInput();
+            ManageCheatInput();
         }
         else if (Time.time > freezeMovementEndTime)
         {
@@ -139,6 +146,14 @@ public class PlayerController : MonoBehaviour
             isJumping = false;
         }
         //Debug.Log("velocity " + rigidBody2D.velocity.x + ". Time: " +  + Time.time);
+    }
+
+    void ManageCheatInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            transform.position = teleportPos.position;
+        }
     }
 
     void ManageAttackInput()
@@ -185,19 +200,21 @@ public class PlayerController : MonoBehaviour
             }
             
         }
-        else
-        {
+        else if (!isJumping)
+        { 
             IgnoreCollisionsWithPlatforms(false);
         }
-        /*if (canJumpNow)
-        {
-            MoveUpwards();
-        }*/
     }
 
     void IgnoreCollisionsWithPlatforms(bool ignore = true)
     {
-        Physics.IgnoreLayerCollision(11, 10, ignore);
+        if (isIgnoringPlatformColliders && ignore)
+            return;
+        if (!isIgnoringPlatformColliders && !ignore)
+            return;
+        //Debug.Log("ignore " + ignore + " " + Time.time);
+        isIgnoringPlatformColliders = ignore;
+        Physics2D.IgnoreLayerCollision(11, 10, ignore);
     }
 
     void ManageHorizontalMoveInput()
@@ -306,22 +323,23 @@ public class PlayerController : MonoBehaviour
 
     private void MoveUpwards()
     {
-        Debug.Log("here " + Time.time);
+       // Debug.Log("here " + Time.time);
         if (targetHeight <= transform.position.y)
         {
-            Debug.Log("target reached " + Time.time);
+            //Debug.Log("target reached " + Time.time);
             canJumpNow = false;
         }
         if (!canJumpNow)
         {
-            Debug.Log("cant jump " + Time.time);
+            //Debug.Log("cant jump " + Time.time);
             return;
         }
         float currJumpForce = jumpForce;
         if (!isStandingOnGround)
-            currJumpForce = 0.7f * currJumpForce;
-        Debug.Log("currjump " + currJumpForce + " " + Time.time);
+           currJumpForce = 0.7f * currJumpForce;
+       // Debug.Log("currjump " + currJumpForce + " " + Time.time);
         rigidBody2D.AddForce(new Vector2(0, currJumpForce));
+        IgnoreCollisionsWithPlatforms(true);
         //transform.position = new Vector2(transform.position.x, transform.position.y + jumpSpeed * Time.deltaTime);
     }
 
@@ -360,21 +378,12 @@ public class PlayerController : MonoBehaviour
         if (Vector2.Distance(targetPosition, transform.position) <= 0.12f)
         {
             isNearTargetPosition = true;
-            //StopWalking();
         }
         else
         {
             isNearTargetPosition = false;
         }
     }
-
-    /*void StopWalking()
-    {
-        Debug.Log("STOP WALKING " + Time.time);
-        isWalking = false;
-        rigidBody2D.velocity = Vector2.zero;
-        //rigidBody2D.angularVelocity = Vector2.zero; 
-    }*/
 
     public void TakeDamage(int amount)
     {

@@ -9,6 +9,7 @@ public class PlayerEndJumpArea : MonoBehaviour
     Rigidbody2D playerRigidbody;
     Animator animator;
     bool isFlying = false;
+    bool endJumpTriggerSet = false;
     void Start()
     {
        /// playerController = //gameObject.GetComponent<PlayerController>();
@@ -23,7 +24,7 @@ public class PlayerEndJumpArea : MonoBehaviour
        if(collision.gameObject.tag == "Ground" && isFlying)
         {
             isFlying = false;
-            animator.SetTrigger("endJump");
+            EndJumpAnimationTrigger();
             animator.SetBool("isFlying", isFlying);
             playerController.StopJumping();
             // Debug.Log("must end jump " + Time.time);
@@ -35,6 +36,7 @@ public class PlayerEndJumpArea : MonoBehaviour
        // Debug.Log("stop man0! " + Time.time + " " + collision.gameObject.layer);
         if (collision.gameObject.layer == 10)
         {
+            endJumpTriggerSet = false;
             isFlying = true;
             playerController.isStandingOnGround = false;
             animator.SetBool("isFlying", isFlying);
@@ -45,16 +47,26 @@ public class PlayerEndJumpArea : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        
         // Debug.Log("stop man0! " + Time.time + " " + collision.gameObject.layer);
         if (collision.gameObject.layer == 10)
         {
-
+            //Debug.Log("stop man0! " + Time.time + " " + collision.gameObject.layer);
             playerController.hasDoubleJumped = false;
             isFlying = false;
             playerController.isStandingOnGround = true;
             playerController.StopJumping();
             animator.SetBool("isFlying", isFlying);
+            EndJumpAnimationTrigger();
+        }
+    }
+
+    private void EndJumpAnimationTrigger()
+    {
+        if (!endJumpTriggerSet && playerController.gameObject.GetComponent<Rigidbody2D>().velocity.y <=0)
+        {
             animator.SetTrigger("endJump");
+            endJumpTriggerSet = true;
         }
     }
 
